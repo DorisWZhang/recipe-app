@@ -7,6 +7,8 @@ export default function Layout() {
       screenOptions={{
         headerShown: false, // Hide the header on all screens
       }}
-    />
+    >
+      <Stack.Screen name="(tabs)"/>
+      </Stack>
   );
 }
