@@ -1,54 +1,48 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
-import { useFonts, Inter_400Regular, Inter_500Medium} from '@expo-google-fonts/inter';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 
-export default function SignUp() {
+export default function Login() {
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
         Inter_500Medium,
-        
-      });
+    });
 
     return (
-        <View style= {styles.mainContainer}>
+        <View style={styles.mainContainer}>
             <View style={styles.headerContainer}>
                 <Link href='/landing' asChild>
                     <FontAwesome name='arrow-left' style={styles.backIcon} />
                 </Link>
                 <Text style={styles.header}>
-                    Sign up
+                    Login
                 </Text>
             </View>
 
-            <View style= {styles.container}>
-                
+            <View style={styles.container}>
                 <TextInput
-                style = {styles.input}
-                placeholder='Name'
+                    style={styles.input}
+                    placeholder='Email'
                 />
                 <TextInput
-                style = {styles.input}
-                placeholder='Email'
-                />
-                <TextInput
-                style = {styles.input}
-                placeholder='Password'
+                    style={styles.input}
+                    placeholder='Password'
                 />
                 <Link href='/home' asChild>
-                    <TouchableOpacity style = {styles.button}>
-                        <Text style = {styles.buttonText}>Sign up</Text>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                 </Link>
             </View>
-            
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     mainContainer: {
+        backgroundColor: 'white',
         width: '100%',
         height: '100%',
     },

@@ -60,7 +60,7 @@ const styles = StyleSheet.create( {
     mainContainer: {
         width: '100%',
         height: '100%',
-        
+        backgroundColor: 'white'
     
     },
     headerContainer: {
