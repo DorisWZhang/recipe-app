@@ -1,5 +1,6 @@
 import { Redirect,Link } from 'expo-router';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, ScrollView, TextInput} from 'react-native';
+import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput} from 'react-native';
+import React, { useState } from 'react'; // Import useState
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -10,7 +11,40 @@ export default function Home() {
         Inter_500Medium,
       });
 
-   
+    const [recipes, setRecipes] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const handleSearch = () => {
+        // Define the query parameters (example: searching for "chicken")
+        
+
+        const queryParams = new URLSearchParams({
+          q: searchQuery, // Example query
+          // ... Add other query parameters here
+        });
+      
+        // Construct the full URL
+        const url = `http://localhost:3000/search?${queryParams.toString()}`;
+      
+        // Use fetch to send a request to the backend
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log('Recipes:', data);
+            
+            // get only the recipes
+            // recipes rn is a json 
+
+            setRecipes(JSON.stringify(data)); // Update recipes state
+            
+
+          })
+          .catch(error => {
+            console.error('Error fetching recipes:', error);
+          });
+      };
+      
+ 
     return(
         <View style = {styles.mainContainer}>
             <View style= {styles.headerContainer}> 
@@ -29,8 +63,22 @@ export default function Home() {
                 </View>
                 </View>
             <View style={{alignItems:'center', marginLeft: -35}}>
-                <TextInput placeholder='What will you cook today?' style={styles.input}>
+                <TextInput 
+                placeholder='What will you cook today?' 
+                style={styles.input}
+                // make the text inputs = value searchQuery
+                value={searchQuery}  // Bind the input's value to the searchQuery state
+                // update the state of searchQuery
+                onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
+                >
                 </TextInput>
+
+                    <Pressable onPress={handleSearch}>
+                        <Text>
+                            Search
+                        </Text>
+                    </Pressable>
+                
             </View>
             
             <View style={styles.sectionContainer}>
@@ -38,13 +86,7 @@ export default function Home() {
                 <View>
                     <ScrollView horizontal={true}>
                         <Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+                        {recipes || 'No data available'}
             
                         </Text>
                     </ScrollView>

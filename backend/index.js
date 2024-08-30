@@ -4,11 +4,14 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+const cors = require('cors'); // Import cors
 const PORT = 3000; // You can change the port if needed
 
 // Replace these with your actual Edamam API credentials
 const EDAMAM_APP_ID = '3153c55e';
 const EDAMAM_APP_KEY = '6ce106f71f98c6c0a1f9a630bf9fc316';
+
+app.use(cors()); // default allows ALL browsers access 
 
 // Route to search for recipes
 app.get('/search', async (req, res) => {
