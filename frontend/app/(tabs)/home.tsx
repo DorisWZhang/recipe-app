@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput} fro
 import React, { useState } from 'react'; // Import useState
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
+import Recipe from '../../models/Recipe';
+
 
 export default function Home() {
 
@@ -11,8 +13,19 @@ export default function Home() {
         Inter_500Medium,
       });
 
-    const [recipes, setRecipes] = useState('')
+    // !!! its easier to parse without stringifying it!
+    const [stringJSON, setJSON] = useState('')
+
+    // searchQuery 
     const [searchQuery, setSearchQuery] = useState('')
+
+    // list of Recipe objects
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    
+    
+    // make recipe as an object
+    // make list of Recipe object 
+
 
     const handleSearch = () => {
         // Define the query parameters (example: searching for "chicken")
@@ -35,7 +48,12 @@ export default function Home() {
             // get only the recipes
             // recipes rn is a json 
 
-            setRecipes(JSON.stringify(data)); // Update recipes state
+            setJSON(JSON.stringify(data)); // Update recipes state 
+            
+            // parse the JSON into Recipe objects
+
+
+
             
 
           })
@@ -44,6 +62,13 @@ export default function Home() {
           });
       };
       
+    const parseJSON = (stringedJSON = String, ) => {
+
+
+    };
+   
+
+    
  
     return(
         <View style = {styles.mainContainer}>
@@ -86,7 +111,7 @@ export default function Home() {
                 <View>
                     <ScrollView horizontal={true}>
                         <Text>
-                        {recipes || 'No data available'}
+                        {stringJSON || 'No data available'}
             
                         </Text>
                     </ScrollView>
