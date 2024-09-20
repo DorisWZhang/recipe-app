@@ -1,6 +1,6 @@
 import { Redirect,Link } from 'expo-router';
 import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput} from 'react-native';
-import React, { useState } from 'react'; // Import useState
+import React, { useState, useEffect } from 'react'; // Import useState
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
@@ -21,7 +21,7 @@ export default function Home() {
 
     // list of Recipe objects
     const [recipes, setRecipes] = useState<Recipe[]>([]);
-    
+
     
     // make recipe as an object
     // make list of Recipe object 
@@ -30,6 +30,7 @@ export default function Home() {
     const handleSearch = () => {
         // Define the query parameters (example: searching for "chicken")
         
+    
 
         const queryParams = new URLSearchParams({
           q: searchQuery, // Example query
@@ -43,6 +44,7 @@ export default function Home() {
         fetch(url)
           .then(response => response.json())
           .then(data => {
+            data = data.hits
             console.log('Recipes:', data);
             
             // get only the recipes
@@ -52,15 +54,31 @@ export default function Home() {
             
             // parse the JSON into Recipe objects
 
-
-
+            const parsedRecipes = data.slice(0, 20).map((recipe:any) => {
+                return new Recipe(
+                    recipe.recipe.label,          // Name of the recipe
+                    recipe.recipe.ingredients,    // Ingredients array
+                    recipe.recipe.uri,            // Link to the recipe
+                    recipe.recipe.image           // Image URL
+                );
+            });
+            setRecipes(parsedRecipes); // Update the recipes state
             
+         
+            console.log(parsedRecipes);
 
-          })
-          .catch(error => {
+        })
+        .catch(error => {
             console.error('Error fetching recipes:', error);
-          });
-      };
+        });
+
+
+
+};
+
+
+
+        
       
     const parseJSON = (stringedJSON = String, ) => {
 
