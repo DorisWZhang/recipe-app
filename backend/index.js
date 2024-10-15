@@ -5,7 +5,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const cors = require('cors'); // Import cors
-const PORT = 3000; // You can change the port if needed
+const PORT = 3000; 
 
 // Replace these with your actual Edamam API credentials
 const EDAMAM_APP_ID = '3153c55e';

@@ -1,9 +1,10 @@
-import { Redirect,Link } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router'; 
 import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput} from 'react-native';
-import React, { useState, useEffect } from 'react'; // Import useState
+import React, { useState, useEffect, useCallback } from 'react'; // Import useState
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
+import RecipeCard from "../../components/RecipeCard";
 
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
 
     // list of Recipe objects
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+
 
     
     // make recipe as an object
@@ -53,7 +55,6 @@ export default function Home() {
             setJSON(JSON.stringify(data)); // Update recipes state 
             
             // parse the JSON into Recipe objects
-
             const parsedRecipes = data.slice(0, 20).map((recipe:any) => {
                 return new Recipe(
                     recipe.recipe.label,          // Name of the recipe
@@ -63,6 +64,8 @@ export default function Home() {
                 );
             });
             setRecipes(parsedRecipes); // Update the recipes state
+
+            //
             
          
             console.log(parsedRecipes);
@@ -76,6 +79,13 @@ export default function Home() {
 
 };
 
+    useFocusEffect(
+        useCallback(() => {
+            // Clear search query and recipes when the page comes back into focus
+            setSearchQuery('');
+            setRecipes([]);
+        }, [])
+    );
 
 
         
@@ -86,7 +96,6 @@ export default function Home() {
     };
    
 
-    
  
     return(
         <View style = {styles.mainContainer}>
@@ -128,10 +137,27 @@ export default function Home() {
                 <Text style={styles.popularText}> Popular Today </Text>
                 <View>
                     <ScrollView horizontal={true}>
-                        <Text>
-                        {stringJSON || 'No data available'}
-            
-                        </Text>
+                        {recipes.length > 0 ? (
+                            recipes.map((recipe, index) => (
+                            <RecipeCard key={index} recipe={recipe} />
+                            ))
+                            ) : (<Text>No recipes available</Text>)
+                        }
+                    </ScrollView>
+                </View>
+            </View>
+
+            {/* !! fixed favourites recipes*/ }
+            <View style={styles.sectionContainer}>
+                <Text style={styles.popularText}> Favourited </Text>
+                <View>
+                    <ScrollView horizontal={true}>
+                        {recipes.length > 0 ? (
+                            recipes.map((recipe, index) => (
+                            <RecipeCard key={index} recipe={recipe} />
+                            ))
+                            ) : (<Text>No recipes available</Text>)
+                        }
                     </ScrollView>
                 </View>
             </View>
