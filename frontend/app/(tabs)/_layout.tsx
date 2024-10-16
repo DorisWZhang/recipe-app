@@ -9,11 +9,21 @@ export default () => {
           }}>
             <Tabs.Screen 
                 name='home' 
-                options={{ title: 'Home' }} // Set the label for the home tab
+                options={{ 
+                    title: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home-outline" size={size} color={color} />
+                    ), // Set the icon for the home tab
+                }} 
             />
             <Tabs.Screen 
                 name='profile' 
-                options={{ title: 'Profile' }} // Set the label for the profile tab
+                options={{ 
+                    title: 'Profile',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="person-outline" size={size} color={color} />
+                    ), // Set the icon for the profile tab
+                }}
             />
         </Tabs>
     )
