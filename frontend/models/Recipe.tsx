@@ -7,6 +7,7 @@ type Ingredient = {
     foodCategory: string;
     foodId: string;
     image: string;
+    favourited: boolean;
   };
   
   class Recipe {
@@ -14,12 +15,14 @@ type Ingredient = {
     ingredients: Ingredient[];
     link: string;
     image: string;
-  
+    favourited: boolean;
+
     constructor(name: string, ingredients: Ingredient[], link: string, image: string) {
       this.name = name;
       this.ingredients = ingredients;
       this.link = link;
       this.image = image;
+      this.favourited = false;
     }
   
     getName() {
@@ -37,8 +40,13 @@ type Ingredient = {
     getImage() {
       return this.image;
     }
+
+    getFavourited() {
+        return this.favourited;
+    }
   }
   
+
   
 
 export default Recipe
