@@ -30,7 +30,7 @@ export default function SignUp() {
                 />
                 <TextInput
                 style = {styles.input}
-                placeholder='Email'
+                placeholder='Username'
                 />
                 <TextInput
                 style = {styles.input}
