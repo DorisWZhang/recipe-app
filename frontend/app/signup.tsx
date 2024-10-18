@@ -19,7 +19,11 @@ export default function SignUp() {
     const handleClick = () => {
         if (!userName || !name || !password) {
             alert('Please fill in all fields');
-        } 
+        } else { 
+            setUserName(tempUserName);
+            setName(tempName);
+            setPassword(tempPassword);
+        }
     
     };
 
@@ -53,12 +57,14 @@ export default function SignUp() {
                 <TextInput
                 style = {styles.input}
                 placeholder='Username'
-                value={tempUserName}
+                value={tempName}
                 onChangeText={setTempName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Password'
+                value = {tempPassword}
+                onChangeText={setTempPassword}
                 />
                 <Link href='/home' asChild>
                     <TouchableOpacity style = {styles.button} onPress={handleClick}>
