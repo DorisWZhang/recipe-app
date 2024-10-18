@@ -11,6 +11,8 @@ export default function SignUp() {
         
       });
 
+
+
     return (
         <View style= {styles.mainContainer}>
             <View style={styles.headerContainer}>

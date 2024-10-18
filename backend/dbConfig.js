@@ -1,3 +1,5 @@
+// postgreSQL connection pool setup
+
 const { Pool }=require('pg');
 const { database } = require('pg/lib/defaults');
 
