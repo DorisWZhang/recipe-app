@@ -1,9 +1,27 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import { useFonts, Inter_400Regular, Inter_500Medium} from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
+import React, { useState, useEffect, useCallback } from 'react'; 
 import { Link } from 'expo-router';
 
+
 export default function SignUp() {
+
+    // temporary that updates as user changes the text boxes
+    const [tempUserName, setTempUserName] = useState('');
+    const [tempName, setTempName] = useState('');
+    const [tempPassword, setTempPassword] = useState('');
+
+    const [userName, setUserName] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleClick = () => {
+        if (!userName || !name || !password) {
+            alert('Please fill in all fields');
+        } 
+    
+    };
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
@@ -29,17 +47,21 @@ export default function SignUp() {
                 <TextInput
                 style = {styles.input}
                 placeholder='Name'
+                value={tempUserName}
+                onChangeText={setTempUserName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Username'
+                value={tempUserName}
+                onChangeText={setTempName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Password'
                 />
                 <Link href='/home' asChild>
-                    <TouchableOpacity style = {styles.button}>
+                    <TouchableOpacity style = {styles.button} onPress={handleClick}>
                         <Text style = {styles.buttonText}>Sign up</Text>
                     </TouchableOpacity>
                 </Link>

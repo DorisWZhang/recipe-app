@@ -1,6 +1,6 @@
 import { Link, useFocusEffect } from 'expo-router'; 
 import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput} from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react'; // Import useState
+import React, { useState, useEffect, useCallback } from 'react'; 
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
