@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import Slider from '@react-native-community/slider';
-import CheckBox from '@react-native-community/checkbox';
+import { CheckBox } from 'react-native-elements';
 
 interface FilterModalProps {
   visible: boolean;
@@ -11,26 +11,72 @@ interface FilterModalProps {
 
 const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => {
   const [category, setCategory] = React.useState(''); // Example filter state
-  const [dietaryRestriction, setDietaryRestriction] = React.useState(''); // Example filter state
-  const [isVegetarian, setIsVegetarian] = useState(false); // State to track the vegetarian checkbox
+  const [dietaryRestrictions, setDietaryRestrictions] = useState({
+    vegetarian: false,
+    vegan: false,
+    paleo: false,
+    highProtein: false,
+    lowFat: false,
+    lowSodium: false,
+    lowSugar: false,
+  });
+
+  // Allergy filters grouped as an object
+  const [allergies, setAllergies] = useState({
+    gluten: false,
+    fish: false,
+    dairy: false,
+    eggs: false,
+    shellfish: false,
+    treeNuts: false,
+    peanuts: false,
+    soy: false,
+    wheat: false,
+  });
+
   const [sliderValue, setSliderValue] = useState(20); // Set initial slider value to 20
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value); // Update slider value state
   };
 
-  const handleCheckboxChange = (newValue: boolean) => {
-    setIsVegetarian(newValue); // Update state when checkbox value changes
+  const handleDietaryChange = (dietary: string) => {
+    setDietaryRestrictions((prev) => ({
+      ...prev,
+      [dietary]: !prev[dietary], // Toggle specific dietary restriction
+    }));
+  };
+
+  const handleAllergyChange = (allergy: string) => {
+    setAllergies((prev) => ({
+      ...prev,
+      [allergy]: !prev[allergy], // Toggle specific allergy
+    }));
   };
 
   const applyFilters = () => {
     // Set the filters when the user applies them
     setFilters({
       category,
-      dietaryRestriction,
-      isVegetarian, // Include vegetarian filter in the applied filters
+      dietaryRestrictions, // Include dietary restrictions filter in the applied filters
+      allergies, // Include allergy filter in the applied filters
     });
     toggleModal(); // Close the modal after applying filters
+  };
+
+  const renderCheckboxes = (filters: { [key: string]: boolean }, onPress: (key: string) => void) => {
+    return Object.keys(filters).map((key, index) => {
+      return (
+        <View style={[styles.checkboxWrapper, index % 2 !== 0 && styles.secondCheckbox]}>
+          <CheckBox
+            key={key}
+            title={key.charAt(0).toUpperCase() + key.slice(1)}
+            checked={filters[key]}
+            onPress={() => onPress(key)}
+          />
+        </View>
+      );
+    });
   };
 
   return (
@@ -42,29 +88,26 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
     >
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>Filter Options</Text>
+          <Text style={styles.modalText}>Filters</Text>
 
-          {/* Example filter inputs */}
-          <TextInput
-            placeholder="Category"
-            style={styles.input}
-            value={category}
-            onChangeText={setCategory}
-          />
-          <TextInput
-            placeholder="Diet"
-            style={styles.input}
-            value={dietaryRestriction}
-            onChangeText={setDietaryRestriction}
-          />
-
-          {/* Vegetarian Checkbox */}
-          <View style={styles.checkboxContainer}>
-            <Text style={styles.checkboxLabel}>Vegetarian</Text>
+          <View>
+            <Text>Allergies</Text>
+            {/* Allergy checkboxes */}
+            <View style={styles.checkboxContainer}>
+              {renderCheckboxes(allergies, handleAllergyChange)}
+            </View>
           </View>
 
           <View>
-            <Text>Maximum Number of Ingredients</Text>
+            <Text>Diet</Text>
+            {/* Dietary restriction checkboxes */}
+            <View style={styles.checkboxContainer}>
+              {renderCheckboxes(dietaryRestrictions, handleDietaryChange)}
+            </View>
+          </View>
+
+          <View>
+            <Text>Number of Ingredients (up to)</Text>
             <Slider
               style={{ width: 200, height: 40 }}
               minimumValue={1} // Set minimum value to 1
@@ -98,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    width: 300,
+    width: 500,
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -122,8 +165,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-  checkbox: {
+  checkboxWrapper: {
+    width: '45%', // Set each checkbox container to take up about half the row
     marginBottom: 10,
+  },
+  secondCheckbox: {
+    marginLeft: '10%', // Space the second checkbox from the first on the same row
   },
   sliderValueText: {
     fontSize: 16,
@@ -132,8 +179,8 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+    flexWrap: 'wrap', // Allow wrapping for checkboxes to go to next row
+    justifyContent: 'space-between', // Space checkboxes evenly
   },
   checkboxLabel: {
     marginLeft: 10,

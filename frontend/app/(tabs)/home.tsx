@@ -124,19 +124,22 @@ export default function Home() {
                 </View>
                 </View>
             <View style={styles.inputContainer}>
+                <TextInput 
+                    placeholder='What will you cook today?' 
+                    style={styles.input}
+                    // make the text inputs = value searchQuery
+                    value={searchQuery}  // Bind the input's value to the searchQuery state
+                    // update the state of searchQuery
+                    onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
+                >     
+                </TextInput>
                 <TouchableOpacity
                     onPress={toggleModal}
                     >
-                    <TextInput 
-                        placeholder='What will you cook today?' 
-                        style={styles.input}
-                        // make the text inputs = value searchQuery
-                        value={searchQuery}  // Bind the input's value to the searchQuery state
-                        // update the state of searchQuery
-                        onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
-                        >
+                        <Text>
+                            Apply more filters
+                        </Text>
                     
-                    </TextInput>
                 </TouchableOpacity>
 
                 <FilterModal visible={visible} toggleModal={toggleModal} setFilters={setFilters}></FilterModal>

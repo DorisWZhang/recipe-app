@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-native-paper": "^5.12.5",
     "rneui": "^1.0.0-stable.0"
   }
 }
