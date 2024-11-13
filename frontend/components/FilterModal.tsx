@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import Slider from '@react-native-community/slider';
+import CheckBox from '@react-native-community/checkbox';
 
 interface FilterModalProps {
   visible: boolean;
@@ -11,12 +12,23 @@ interface FilterModalProps {
 const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => {
   const [category, setCategory] = React.useState(''); // Example filter state
   const [dietaryRestriction, setDietaryRestriction] = React.useState(''); // Example filter state
+  const [isVegetarian, setIsVegetarian] = useState(false); // State to track the vegetarian checkbox
+  const [sliderValue, setSliderValue] = useState(20); // Set initial slider value to 20
+
+  const handleSliderChange = (value: number) => {
+    setSliderValue(value); // Update slider value state
+  };
+
+  const handleCheckboxChange = (newValue: boolean) => {
+    setIsVegetarian(newValue); // Update state when checkbox value changes
+  };
 
   const applyFilters = () => {
     // Set the filters when the user applies them
     setFilters({
       category,
       dietaryRestriction,
+      isVegetarian, // Include vegetarian filter in the applied filters
     });
     toggleModal(); // Close the modal after applying filters
   };
@@ -40,18 +52,31 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
             onChangeText={setCategory}
           />
           <TextInput
-            placeholder="Dietary Restriction"
+            placeholder="Diet"
             style={styles.input}
             value={dietaryRestriction}
             onChangeText={setDietaryRestriction}
           />
-          <Slider
-                        style={{width: 200, height: 40}}
-                        minimumValue={0}
-                        maximumValue={1}
-                        minimumTrackTintColor="#CFCFCF"
-                        maximumTrackTintColor="#000000"
-                    />
+
+          {/* Vegetarian Checkbox */}
+          <View style={styles.checkboxContainer}>
+            <Text style={styles.checkboxLabel}>Vegetarian</Text>
+          </View>
+
+          <View>
+            <Text>Maximum Number of Ingredients</Text>
+            <Slider
+              style={{ width: 200, height: 40 }}
+              minimumValue={1} // Set minimum value to 1
+              maximumValue={20}
+              minimumTrackTintColor="#000000"
+              maximumTrackTintColor="#CFCFCF"
+              value={sliderValue} // Bind slider value to state
+              onValueChange={handleSliderChange} // Update state on slider change
+              step={1} // Ensure only integer values
+            />
+          </View>
+          <Text style={styles.sliderValueText}>{sliderValue}</Text>
 
           <TouchableOpacity onPress={applyFilters}>
             <Text style={styles.applyButton}>Apply Filters</Text>
@@ -96,6 +121,23 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 16,
     marginTop: 10,
+  },
+  checkbox: {
+    marginBottom: 10,
+  },
+  sliderValueText: {
+    fontSize: 16,
+    marginTop: 10,
+    color: '#333',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  checkboxLabel: {
+    marginLeft: 10,
+    fontSize: 16,
   },
   closeButton: {
     color: 'gray',
