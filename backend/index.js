@@ -6,12 +6,17 @@ const axios = require('axios');
 const app = express();
 const cors = require('cors'); // Import cors
 const PORT = 3000; 
+const userRoutes = require('./routes/userRoutes');
+
 
 // Replace these with your actual Edamam API credentials
 const EDAMAM_APP_ID = '3153c55e';
 const EDAMAM_APP_KEY = '6ce106f71f98c6c0a1f9a630bf9fc316';
 
 app.use(cors()); // default allows ALL browsers access 
+
+app.use(express.json()); // To parse JSON bodies
+
 
 // Route to search for recipes
 app.get('/search', async (req, res) => {
@@ -76,6 +81,10 @@ app.get('/search', async (req, res) => {
     res.status(500).send('An error occurred while fetching the recipes.');
   }
 });
+
+// user the user.js file to handle 
+// endpoints that start with /user
+app.use('/user', userRoutes);
 
 // Starting the server
 app.listen(PORT, () => {

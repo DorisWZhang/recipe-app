@@ -7,24 +7,41 @@ import { Link } from 'expo-router';
 
 export default function SignUp() {
 
-    // temporary that updates as user changes the text boxes
-    const [tempUserName, setTempUserName] = useState('');
-    const [tempName, setTempName] = useState('');
-    const [tempPassword, setTempPassword] = useState('');
-
     const [userName, setUserName] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => {
+    const handleClick = async () => {
         if (!userName || !name || !password) {
             alert('Please fill in all fields');
         } else { 
-            setUserName(tempUserName);
-            setName(tempName);
-            setPassword(tempPassword);
-        }
+            // !!!check database to see if an existing account with user exists
+            // if not save 
+            try {
+                const response = await fetch('http://localhost:3000/user/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name, 
+                        username: userName, 
+                        password: password }),
+                });
     
+                const data = await response.json();
+    
+                if (response.ok) {
+                    alert('User registered successfully!');
+
+                } else {
+                    alert(data.error || 'Registration failed.');
+                }
+            } catch (error) {
+                console.error('Error registering user:', error);
+                alert('did not work');
+            }
+
+        }
+
     };
 
     let [fontsLoaded] = useFonts({
@@ -51,20 +68,20 @@ export default function SignUp() {
                 <TextInput
                 style = {styles.input}
                 placeholder='Name'
-                value={tempUserName}
-                onChangeText={setTempUserName}
+                value={userName}
+                onChangeText={setUserName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Username'
-                value={tempName}
-                onChangeText={setTempName}
+                value={name}
+                onChangeText={setName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Password'
-                value = {tempPassword}
-                onChangeText={setTempPassword}
+                value = {password}
+                onChangeText={setPassword}
                 />
                 <Link href='/home' asChild>
                     <TouchableOpacity style = {styles.button} onPress={handleClick}>

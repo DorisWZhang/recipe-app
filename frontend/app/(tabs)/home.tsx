@@ -5,6 +5,8 @@ import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/
 import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
 import RecipeCard from "../../components/RecipeCard";
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import FilterModal from '@/components/FilterModal';
 
 
 export default function Home() {
@@ -23,8 +25,15 @@ export default function Home() {
     // list of Recipe objects
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 
+    // visibility for filter modal
+    const [visible, setVisible] = useState<boolean>(false);
+    const [filters, setFilters] = useState<{ [key: string]: any }>({}); // Filter options state
 
-    
+
+    const toggleModal = (): void => {
+        setVisible((prevState) => !prevState);
+    };
+
     // make recipe as an object
     // make list of Recipe object 
 
@@ -95,7 +104,7 @@ export default function Home() {
 
     };
    
-
+   
  
     return(
         <View style = {styles.mainContainer}>
@@ -114,23 +123,30 @@ export default function Home() {
                     </Text>
                 </View>
                 </View>
-            <View style={{alignItems:'center', marginLeft: -35}}>
-                <TextInput 
-                placeholder='What will you cook today?' 
-                style={styles.input}
-                // make the text inputs = value searchQuery
-                value={searchQuery}  // Bind the input's value to the searchQuery state
-                // update the state of searchQuery
-                onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
-                >
-                </TextInput>
+            <View style={styles.inputContainer}>
+                <TouchableOpacity
+                    onPress={toggleModal}
+                    >
+                    <TextInput 
+                        placeholder='What will you cook today?' 
+                        style={styles.input}
+                        // make the text inputs = value searchQuery
+                        value={searchQuery}  // Bind the input's value to the searchQuery state
+                        // update the state of searchQuery
+                        onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
+                        >
+                    
+                    </TextInput>
+                </TouchableOpacity>
 
+                <FilterModal visible={visible} toggleModal={toggleModal} setFilters={setFilters}></FilterModal>
+                
                     <Pressable onPress={handleSearch}>
                         <Text>
                             Search
                         </Text>
                     </Pressable>
-                
+                    
             </View>
             
             <View style={styles.sectionContainer}>
@@ -183,6 +199,11 @@ const styles = StyleSheet.create( {
         fontSize: 25,
         fontFamily: 'Inter_500Medium'
     },
+    inputContainer: {
+        alignItems: 'center',
+        marginLeft: -35,
+        justifyContent: 'center',
+      },
     input: {
         marginTop: 10,
         color: '#CFCFCF',

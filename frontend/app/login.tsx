@@ -2,8 +2,23 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import React, { useState, useEffect, useCallback } from 'react'; 
+
 
 export default function Login() {
+
+    const [userName, setUserName] = useState('');
+    const [passWord, setPassWord] = useState('');
+
+    const handleClick = async () => {
+        if ( (!userName) || (!passWord)) {
+            alert("Please fill out all fields");
+        } else {
+            // !!! later check to see if it is a valid login
+        
+        }
+
+    };
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
@@ -24,14 +39,18 @@ export default function Login() {
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Email'
+                    placeholder='Username'
+                    value={userName}
+                    onChangeText={setUserName}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder='Password'
+                    value={passWord}
+                    onChangeText={setPassWord}
                 />
                 <Link href='/home' asChild>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={handleClick}>
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                 </Link>
@@ -101,3 +120,4 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',
     },
 });
+
