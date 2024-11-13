@@ -1,41 +1,34 @@
 const express = require('express');
+const registerUser = require('../models/userModel');
 
-// like a mini application
 const router = express.Router();
 const cors = require('cors'); // Import cors
 
 router.use(cors());
 
-router
-    .route("/register")
-    // more efficient than post
-    .get((req,res) => {
+// POST /user/register: Register a new user
+router.post('/register', async (req, res) => {
+    const { name, username, password } = req.body;
+    try {
+        const newUser = await registerUser(name, username, password);
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to register user' });
+    }
+});
 
-    })
-    // post can take large amounts of data, data is sent in body
-    .post( async (req,res) => {
-        const { name, username, password } = req.body;
-        try {
-            const newUser = await registerUser(name, username, password);
-            res.status(201).json({ message: 'User registered successfully', user: newUser });
-
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Failed to register user' });
-        }
-    });
-
-
-router
-    .route("/login")
-    .get((req,res) => {
-
-    })
-    .post((req,res) => {
-
-    })
+// POST /user/login: Handle login (you can implement this later)
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    // For now, let's just send a placeholder message
+    // You can replace this with actual login logic (e.g., JWT token validation, etc.)
+    try {
+        res.status(200).json({ message: 'Login functionality coming soon' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to login' });
+    }
+});
 
 module.exports = router;
-
-
-

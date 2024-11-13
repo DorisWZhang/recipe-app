@@ -1,3 +1,5 @@
+console.log('userModel loaded');
+
 const pool = require('../dbConfig');
 
 // save it to the database
@@ -13,3 +15,5 @@ const registerUser = async (_name, username, password) => {
         throw error;
     }
 };
+module.exports = registerUser;
+

@@ -11,4 +11,5 @@ const pool = new Pool( {
     database:'recipe-app'
 })
 
+pool.connect().then(() => console.log('connected'))
 module.exports = pool;
