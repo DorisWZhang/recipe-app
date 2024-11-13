@@ -69,14 +69,14 @@ export default function SignUp() {
                 <TextInput
                 style = {styles.input}
                 placeholder='Name'
-                value={userName}
-                onChangeText={setUserName}
+                value={name}
+                onChangeText={setName}
                 />
                 <TextInput
                 style = {styles.input}
                 placeholder='Username'
-                value={name}
-                onChangeText={setName}
+                value={userName}
+                onChangeText={setUserName}
                 />
                 <TextInput
                 style = {styles.input}

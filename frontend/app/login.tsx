@@ -11,16 +11,41 @@ export default function Login() {
     const [userName, setUserName] = useState('');
     const [passWord, setPassWord] = useState('');
 
+    
     const handleClick = async () => {
-        if ( (!userName) || (!passWord)) {
+
+        console.log('User clicked login');
+        if (!userName || !passWord) {
             alert("Please fill out all fields");
         } else {
-           
-
-        
+            try {
+                const response = await fetch('http://localhost:3000/user/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: userName, 
+                        password: passWord
+                    }),
+                });
+    
+                const data = await response.json();
+    
+                // Check the response status
+                if (response.ok) {
+                    alert('Logged in successfully!');
+                    // You can navigate to another screen here, if necessary
+                } else {
+                    alert(data.error || 'Login failed.');
+                }
+    
+            } catch (error) {
+                console.error('Error logging in:', error);
+                alert('Login request failed.');
+            }
         }
-
     };
+    
+
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,

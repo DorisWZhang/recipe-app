@@ -1,3 +1,7 @@
+// In authModel.js, loginUser function
+
+console.log('authModel loaded');
+
 const pool = require('../dbConfig');
 
 const loginUser = async (username) => {
@@ -6,12 +10,15 @@ const loginUser = async (username) => {
             'SELECT password FROM accounts WHERE username = $1',
             [username]
         );
+        
         if (result.rows.length === 0) {
-            throw new Error('User not found');
+            // If no user found, return null or undefined
+            return null;
         }
-        return result.rows[0].passwordS
+        
+        return result.rows[0].password;
     } catch (error) {
-        console.error('Error getting password', error);
+        console.error('Error getting password:', error.message);
         throw error;
     }
 };
