@@ -133,15 +133,16 @@ export default function Home() {
                     onChangeText={(text) => setSearchQuery(text)}  // Update the state on text change
                 >     
                 </TextInput>
-                <TouchableOpacity
-                    onPress={toggleModal}
-                    >
-                        <Text>
-                            Apply more filters
-                        </Text>
-                    
-                </TouchableOpacity>
-
+                <View style={{alignItems: 'flex-start'}}>
+                    <TouchableOpacity 
+                        onPress={toggleModal} style={{ alignSelf: 'flex-start' }}
+                        >
+                            <Text style={{fontSize: 16, marginTop:5, }}>
+                                Apply more filters
+                            </Text>
+                        
+                    </TouchableOpacity>
+                </View>
                 <FilterModal visible={visible} toggleModal={toggleModal} setFilters={setFilters}></FilterModal>
                 
                     <Pressable onPress={handleSearch}>

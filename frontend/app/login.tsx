@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 25,
         fontFamily: 'Inter_500Medium',
+        fontWeight: 600,
     },
     container: {
         width: '100%',

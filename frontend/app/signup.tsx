@@ -11,6 +11,7 @@ export default function SignUp() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
+
     const handleClick = async () => {
         if (!userName || !name || !password) {
             alert('Please fill in all fields');
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 25,
         fontFamily: 'Inter_500Medium',
+        fontWeight: 600,
     },
     container: {
         width: '100%',
