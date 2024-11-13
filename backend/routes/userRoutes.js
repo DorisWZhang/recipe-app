@@ -21,9 +21,8 @@ router.post('/register', async (req, res) => {
 // POST /user/login: Handle login (you can implement this later)
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    // For now, let's just send a placeholder message
-    // You can replace this with actual login logic (e.g., JWT token validation, etc.)
     try {
+        
         res.status(200).json({ message: 'Login functionality coming soon' });
     } catch (error) {
         console.error(error);
