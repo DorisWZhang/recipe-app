@@ -44,6 +44,10 @@ type Ingredient = {
     getFavourited() {
         return this.favourited;
     }
+
+    getNumIngredients() {
+      return this.getIngredients.length;
+    }
   }
   
 

@@ -34,7 +34,7 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
     wheat: false,
   });
 
-  const [sliderValue, setSliderValue] = useState(20); // Set initial slider value to 20
+  const [sliderValue, setSliderValue] = useState(25); // Set initial slider value to 20
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value); // Update slider value state
@@ -111,7 +111,7 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
             <Slider
               style={{ width: 200, height: 40 }}
               minimumValue={1} // Set minimum value to 1
-              maximumValue={20}
+              maximumValue={25}
               minimumTrackTintColor="#000000"
               maximumTrackTintColor="#CFCFCF"
               value={sliderValue} // Bind slider value to state
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    width: 500,
+    width: 400,
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,

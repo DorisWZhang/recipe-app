@@ -5,6 +5,7 @@ import { Link } from 'expo-router';
 import React, { useState, useEffect, useCallback } from 'react'; 
 
 
+
 export default function Login() {
 
     const [userName, setUserName] = useState('');
@@ -14,7 +15,8 @@ export default function Login() {
         if ( (!userName) || (!passWord)) {
             alert("Please fill out all fields");
         } else {
-            // !!! later check to see if it is a valid login
+           
+
         
         }
 
