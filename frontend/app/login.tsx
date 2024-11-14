@@ -3,6 +3,8 @@ import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Import useRouter
 import React, { useState } from 'react';
+import Account from '../models/Account';
+import { sharedData } from '@/components/SharedData';
 
 export default function Login() {
     const [userName, setUserName] = useState('');
@@ -29,8 +31,15 @@ export default function Login() {
                 // Check the response status
                 if (response.ok) {
                     alert('Logged in successfully!');
+
+                   
+                    sharedData.username=userName;
                     // Navigate to home screen only if login is successful
-                    router.push('/home'); 
+                    router.push({
+                        pathname: '/home',
+                        params: { username: userName },
+                    });
+
                 } else {
                     alert(data.error || 'Login failed.');
                 }

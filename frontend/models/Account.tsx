@@ -8,12 +8,23 @@ class Account {
 
 
     // make favourited optional
-    constructor(name: string, username: string, password: string, favourited = []) {
+
+    constructor(
+        name: string = "", // Default name if not provided
+        username: string,
+        password: string,
+        favourited: any[] = [] // Default to an empty array if no favourites are passed
+    ) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.favourited = favourited; // default to no saved favourites
+        this.favourited = favourited;
     }
+
+    // define overloaded signatures for the constructor
+     
+    
+    
 
     updateName(name: string) {
         this.name = name;

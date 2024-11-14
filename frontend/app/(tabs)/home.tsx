@@ -1,4 +1,4 @@
-import { Link, useFocusEffect } from 'expo-router'; 
+import { Link, useFocusEffect, useRouter, useLocalSearchParams } from 'expo-router'; 
 import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react'; 
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
@@ -6,6 +6,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
 import FilterModal from '@/components/FilterModal';
 import RecipeCard from '@/components/RecipeCard';
+import Account from "../../models/Account";
+import { sharedData } from '@/components/SharedData';
+
+
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
@@ -18,7 +22,12 @@ export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);  // List of Recipe objects
   const [visible, setVisible] = useState<boolean>(false);  // Modal visibility for filters
   const [filters, setFilters] = useState<{ [key: string]: any }>({});  // Filter options state
+  
+  
+  const router = useRouter();
+  const userName = sharedData.username;
 
+    
   const toggleModal = (): void => {
     setVisible((prevState) => !prevState);
   };
