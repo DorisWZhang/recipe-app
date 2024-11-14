@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams } from 'expo-router';
 import { sharedData } from '@/components/SharedData';
 
 

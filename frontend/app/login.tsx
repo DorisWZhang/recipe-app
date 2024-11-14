@@ -37,7 +37,6 @@ export default function Login() {
                     // Navigate to home screen only if login is successful
                     router.push({
                         pathname: '/home',
-                        params: { username: userName },
                     });
 
                 } else {

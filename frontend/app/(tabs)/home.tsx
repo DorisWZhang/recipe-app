@@ -6,7 +6,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
 import FilterModal from '@/components/FilterModal';
 import RecipeCard from '@/components/RecipeCard';
-import Account from "../../models/Account";
 import { sharedData } from '@/components/SharedData';
 
 

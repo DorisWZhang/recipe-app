@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import React, { useState, useEffect, useCallback } from 'react'; 
 import { useRouter } from 'expo-router'; 
 import { Link } from 'expo-router';
+import { sharedData } from '@/components/SharedData';
 
 
 export default function SignUp() {
@@ -33,6 +34,7 @@ export default function SignUp() {
     
                 if (response.ok) {
                     alert('User registered successfully!');
+                    sharedData.username = userName;
                     router.push('/home');
                 } else {
                     alert(data.error || 'Registration failed.');
