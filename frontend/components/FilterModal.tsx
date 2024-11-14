@@ -62,7 +62,7 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
       allergies, // Include allergy filter in the applied filters
       maxIngredients: sliderValue,
     });
-    //toggleModal(); // Close the modal after applying filters
+    toggleModal(); // Close the modal after applying filters
   };
 
   const renderCheckboxes = (filters: { [key: string]: boolean }, onPress: (key: string) => void) => {
