@@ -1,19 +1,15 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
-import { Link } from 'expo-router';
-import React, { useState, useEffect, useCallback } from 'react'; 
-
-
+import { useRouter } from 'expo-router'; // Import useRouter
+import React, { useState } from 'react';
 
 export default function Login() {
-
     const [userName, setUserName] = useState('');
     const [passWord, setPassWord] = useState('');
+    const router = useRouter(); // Create router instance to navigate
 
-    
     const handleClick = async () => {
-
         console.log('User clicked login');
         if (!userName || !passWord) {
             alert("Please fill out all fields");
@@ -23,29 +19,28 @@ export default function Login() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: userName, 
+                        username: userName,
                         password: passWord
                     }),
                 });
-    
+
                 const data = await response.json();
-    
+
                 // Check the response status
                 if (response.ok) {
                     alert('Logged in successfully!');
-                    // You can navigate to another screen here, if necessary
+                    // Navigate to home screen only if login is successful
+                    router.push('/home'); 
                 } else {
                     alert(data.error || 'Login failed.');
                 }
-    
+
             } catch (error) {
                 console.error('Error logging in:', error);
                 alert('Login request failed.');
             }
         }
     };
-    
-
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
@@ -55,9 +50,7 @@ export default function Login() {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.headerContainer}>
-                <Link href='/landing' asChild>
-                    <FontAwesome name='arrow-left' style={styles.backIcon} />
-                </Link>
+                <FontAwesome name='arrow-left' style={styles.backIcon} onPress={() => router.push('/landing')} />
                 <Text style={styles.header}>
                     Login
                 </Text>
@@ -75,15 +68,14 @@ export default function Login() {
                     placeholder='Password'
                     value={passWord}
                     onChangeText={setPassWord}
+                    secureTextEntry
                 />
-                <Link href='/home' asChild>
-                    <TouchableOpacity style={styles.button} onPress={handleClick}>
-                        <Text style={styles.buttonText}>Login</Text>
-                    </TouchableOpacity>
-                </Link>
+                <TouchableOpacity style={styles.button} onPress={handleClick}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -148,4 +140,3 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',
     },
 });
-

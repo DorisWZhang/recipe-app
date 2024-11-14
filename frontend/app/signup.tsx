@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native
 import { useFonts, Inter_400Regular, Inter_500Medium} from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useState, useEffect, useCallback } from 'react'; 
+import { useRouter } from 'expo-router'; 
 import { Link } from 'expo-router';
 
 
@@ -10,7 +11,7 @@ export default function SignUp() {
     const [userName, setUserName] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-
+    const router = useRouter(); // router instance used to navigate, navigate screens using router.push(), router.replace(), router.back()
 
     const handleClick = async () => {
         if (!userName || !name || !password) {
@@ -32,7 +33,7 @@ export default function SignUp() {
     
                 if (response.ok) {
                     alert('User registered successfully!');
-
+                    router.push('/home');
                 } else {
                     alert(data.error || 'Registration failed.');
                 }
@@ -83,12 +84,12 @@ export default function SignUp() {
                 placeholder='Password'
                 value = {password}
                 onChangeText={setPassword}
+                secureTextEntry
                 />
-                <Link href='/home' asChild>
-                    <TouchableOpacity style = {styles.button} onPress={handleClick}>
-                        <Text style = {styles.buttonText}>Sign up</Text>
-                    </TouchableOpacity>
-                </Link>
+                <TouchableOpacity style = {styles.button} onPress={handleClick}>
+                    <Text style = {styles.buttonText}>Sign up</Text>
+                </TouchableOpacity>
+                
             </View>
             
         </View>
