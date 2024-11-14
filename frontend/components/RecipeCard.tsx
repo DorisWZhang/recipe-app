@@ -33,7 +33,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
       <Image source={{ uri: recipe.getImage() }} style={{ width: 100, height: 100, marginVertical: 10 }} />
 
       {/* Display recipe ingredients */}
-      <Text style={styles.textContainer}>Ingredients:</Text>
+      <Text style={styles.textContainer}>Ingredients: {recipe.getNumIngredients()} </Text>
       {recipe.getIngredients().slice(0, maxIngredients).map((ingredient, index) => (
         <Text key={index} style={styles.ingredientText}>
           {truncateList(ingredient.text, maxChars)} {/* Display the ingredient name */}

@@ -46,7 +46,7 @@ type Ingredient = {
     }
 
     getNumIngredients() {
-      return this.getIngredients.length;
+      return this.getIngredients().length;
     }
   }
   

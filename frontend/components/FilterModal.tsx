@@ -34,7 +34,7 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
     wheat: false,
   });
 
-  const [sliderValue, setSliderValue] = useState(25); // Set initial slider value to 20
+  const [sliderValue, setSliderValue] = useState(25); // Set initial slider value to 25
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value); // Update slider value state
@@ -60,8 +60,9 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
       category,
       dietaryRestrictions, // Include dietary restrictions filter in the applied filters
       allergies, // Include allergy filter in the applied filters
+      maxIngredients: sliderValue,
     });
-    toggleModal(); // Close the modal after applying filters
+    //toggleModal(); // Close the modal after applying filters
   };
 
   const renderCheckboxes = (filters: { [key: string]: boolean }, onPress: (key: string) => void) => {

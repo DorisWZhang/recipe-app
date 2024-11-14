@@ -70,9 +70,13 @@ export default function Home() {
     let filteredRecipes = recipes;
 
     // Apply ingredient count filter if it's specified
+    //if (filters.maxIngredients) {
+
     if (filters.maxIngredients) {
-      filteredRecipes = filteredRecipes.filter(recipe => recipe.getNumIngredients() <= filters.maxIngredients);
-    }
+    filteredRecipes = filteredRecipes.filter(
+      (recipe) => recipe.getNumIngredients() <= filters.maxIngredients
+    );
+  }
 
     // !!! create more functions to filter the fetched recipes
 
