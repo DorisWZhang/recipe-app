@@ -30,9 +30,6 @@ export default function Login() {
 
                 // Check the response status
                 if (response.ok) {
-                    alert('Logged in successfully!');
-
-                   
                     sharedData.username=userName;
                     // Navigate to home screen only if login is successful
                     router.push({
@@ -107,6 +104,7 @@ const styles = StyleSheet.create({
         left: 35,
     },
     header: {
+        color: '#2A2C41',
         fontSize: 25,
         fontFamily: 'Inter_500Medium',
         fontWeight: 600,

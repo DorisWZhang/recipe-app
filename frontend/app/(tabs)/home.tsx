@@ -72,6 +72,7 @@ export default function Home() {
     // Apply ingredient count filter if it's specified
     //if (filters.maxIngredients) {
 
+    // !!! return to this
     if (filters.maxIngredients) {
     filteredRecipes = filteredRecipes.filter(
       (recipe) => recipe.getNumIngredients() <= filters.maxIngredients
@@ -82,6 +83,12 @@ export default function Home() {
 
     return filteredRecipes;
   }
+
+  // load recipe page depending on recipe clicked
+  const clickRecipe = (recipe: Recipe) => {
+
+  }
+
 
   // Clear search query and recipes when the page comes back into focus
   useFocusEffect(
@@ -159,12 +166,13 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   header: {
+    color: '#2A2C41',
     fontSize: 25,
     fontFamily: 'Inter_500Medium'
   },
   inputContainer: {
     alignItems: 'center',
-    marginLeft: -35,
+    marginLeft: 0,
     justifyContent: 'center',
   },
   input: {
@@ -188,7 +196,7 @@ const styles = StyleSheet.create({
   },
   popularText: {
     fontSize: 20,
-    color: 'black',
+    color: '#2A2C41',
     fontWeight: '500',
   }
 });
