@@ -59,6 +59,8 @@ export default function Home() {
         // apply other filters after parsing, ex: ingredient count
         const filteredRecipes = applyFilters(parsedRecipes);
         setRecipes(filteredRecipes);  // update the state with filtered recipes
+        // save them to database
+        enterDatabase(filteredRecipes);
       })
       .catch(error => {
         console.error('Error fetching recipes:', error);
@@ -84,6 +86,37 @@ export default function Home() {
     return filteredRecipes;
   }
 
+  // !!!! enter search results recipes into database
+  const enterDatabase = async (recipes: Recipe[]) => {
+    // Create an array to hold promises for all recipe requests
+    const requests = recipes.map(async (recipe) => {
+      // save from the Recipe object
+      const name = recipe.getName();
+      console.log('Saving recipe:', { name });
+  
+      const data = { name: name };
+      console.log('Sending recipe data:', data); // Log data before sending it
+  
+      try {
+        const response = await fetch('http://localhost:3000/user/storerecipe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        console.log('Backend response:', result);
+      } catch (error) {
+        console.error('Error sending recipe:', error);
+      }
+    });
+  
+    // Wait for all requests to complete
+    await Promise.all(requests);
+    console.log('All recipes have been processed.');
+  };
+  
+
+  
   // load recipe page depending on recipe clicked
   const clickRecipe = (recipe: Recipe) => {
 

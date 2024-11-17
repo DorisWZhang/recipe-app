@@ -1,6 +1,8 @@
 const express = require('express');
 const registerUser = require('../models/userModel');
 const loginUser = require('../models/authModel');
+const saveRecipe = require('../models/saveRecipeModel');
+
 
 const router = express.Router();
 const cors = require('cors'); // Import cors
@@ -41,6 +43,19 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to login' });
+    }
+});
+
+
+router.post('/storerecipe', async (req, res) => {
+    const { name } = req.body;
+    console.log('Received name:', name); // Log the received name
+    try {
+        const recipe = await saveRecipe(name);
+        res.status(200).json({ message: 'Recipe saved successfully', recipe });
+    } catch (error) {
+        console.error('Error saving recipe:', error);
+        res.status(500).json({ error: 'Failed to store recipe' });
     }
 });
 
