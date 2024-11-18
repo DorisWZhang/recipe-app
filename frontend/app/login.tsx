@@ -5,12 +5,14 @@ import { useRouter } from 'expo-router'; // Import useRouter
 import React, { useState } from 'react';
 import Account from '../models/Account';
 import { sharedData } from '@/components/SharedData';
+import Recipe from '../models/Recipe';
 
 export default function Login() {
     const [userName, setUserName] = useState('');
     const [passWord, setPassWord] = useState('');
     const router = useRouter(); // Create router instance to navigate
-
+    const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
+  
     const handleClick = async () => {
         console.log('User clicked login');
         if (!userName || !passWord) {
@@ -46,6 +48,27 @@ export default function Login() {
             }
         }
     };
+
+    // fetch favourited recipes from db
+    const fetchFavRecipes = async () => {
+        const userName = sharedData.username;
+        try {
+            const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: userName,
+                }),
+            });
+
+            // !!!!! parse the data into a list of the recipe uri
+            const data = await response.json();
+
+        } catch (error) {
+            console.error('Error fetching favourite recipes:', error);
+        } 
+    };
+
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,

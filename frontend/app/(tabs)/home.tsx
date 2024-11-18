@@ -21,7 +21,7 @@ export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);  // List of Recipe objects
   const [visible, setVisible] = useState<boolean>(false);  // Modal visibility for filters
   const [filters, setFilters] = useState<{ [key: string]: any }>({});  // Filter options state
-  
+  const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
   
   const router = useRouter();
   const userName = sharedData.username;

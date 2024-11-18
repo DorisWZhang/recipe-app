@@ -4,9 +4,11 @@ const loginUser = require('../models/authModel');
 const saveRecipe = require('../models/saveRecipeModel');
 const favouriteRecipe = require('../models/favouriteRecipeModel');
 const unfavouriteRecipe = require('../models/unfavouriteRecipeModel');
+const retrieveFavouriteRecipes = require('../models/retrieveFavouriteRecipesModel');
 
 const router = express.Router();
 const cors = require('cors'); // Import cors
+const retrieveFavouriteRecipe = require('../models/retrieveFavouriteRecipeModel');
 
 router.use(cors());
 
@@ -71,6 +73,7 @@ router.post('/favouriterecipe', async (req, res) => {
     }
 });
 
+// endpoint to remove favourites recipe relationship from db
 router.post('/unfavouriterecipe', async (req, res) => {
     const { username, link } = req.body;
     try {
@@ -81,5 +84,18 @@ router.post('/unfavouriterecipe', async (req, res) => {
         res.status(500).json({ error: 'Failed to unfavourite recipe' });
     }
 });
+
+// endpoint to retrieve user's favourited recipes
+router.post('/retrievefavouriterecipes', async (req, res) => {
+    const { username } = req.body;
+    try {
+        const recipe = await retrieveFavouriteRecipes(username, link);
+        res.status(200).json({ message: 'Unfavourited recipe saved successfully', recipe });
+    } catch (error) {
+        console.error('Error unfavouriting recipe:', error);
+        res.status(500).json({ error: 'Failed to unfavourite recipe' });
+    }
+});
+
 
 module.exports = router;
