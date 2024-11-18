@@ -3,7 +3,7 @@ const registerUser = require('../models/userModel');
 const loginUser = require('../models/authModel');
 const saveRecipe = require('../models/saveRecipeModel');
 const favouriteRecipe = require('../models/favouriteRecipeModel');
-
+const unfavouriteRecipe = require('../models/unfavouriteRecipeModel');
 
 const router = express.Router();
 const cors = require('cors'); // Import cors
@@ -71,5 +71,15 @@ router.post('/favouriterecipe', async (req, res) => {
     }
 });
 
+router.post('/unfavouriterecipe', async (req, res) => {
+    const { username, link } = req.body;
+    try {
+        const recipe = await unfavouriteRecipe(username, link);
+        res.status(200).json({ message: 'Unfavourited recipe saved successfully', recipe });
+    } catch (error) {
+        console.error('Error unfavouriting recipe:', error);
+        res.status(500).json({ error: 'Failed to unfavourite recipe' });
+    }
+});
 
 module.exports = router;

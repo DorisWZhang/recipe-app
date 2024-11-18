@@ -7,14 +7,24 @@ import { sharedData } from './SharedData';
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
 
-  const [favourited, updateFavourited] = useState(recipe.getFavourited());
+  const [favourited, updateFavourited] = useState(false);
 
   {/* update to opposite of its previous state */ }
   const toggleCheckbox = () => {
-    updateFavourited(!favourited);
-    favouriteRecipe(recipe);
-    
+    updateFavourited((prevFavourited) => {
+      const newFavourited = !prevFavourited;
+  
+      // save or remove favourited relationship from the database
+      if (newFavourited) {
+        favouriteRecipe(recipe);
+      } else {
+        unfavouriteRecipe(recipe);
+      }
+  
+      return newFavourited; 
+    });
   };
+  
 
   // save a favourited recipe relationship to db
   const favouriteRecipe = async (recipe: Recipe) => {
@@ -39,6 +49,20 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const unfavouriteRecipe = async (recipe:Recipe) => {
     const _link = recipe.getLink();
     const userName = sharedData.username;
+    try {
+      const response = await fetch('http://localhost:3000/user/unfavouriterecipe', {
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: userName, 
+            link: _link }),
+      });
+      const result = await response.json();
+      console.log('Backend response:', result);
+    } catch (error) {
+      console.error('Error saving unfavourited recipe:', error);
+    }
+    
   }
 
 
@@ -54,7 +78,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
     <View style={styles.mainContainer}>
       {/* display recipe name */}
-      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{recipe.getName()}</Text>
+      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{recipe.getName()} {favourited}</Text>
 
       {/* display recipe image */}
       <Image source={{ uri: recipe.getImage() }} style={{ width: 100, height: 100, marginVertical: 10 }} />
@@ -64,6 +88,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
       {recipe.getIngredients().slice(0, maxIngredients).map((ingredient, index) => (
         <Text key={index} style={styles.ingredientText}>
           {truncateList(ingredient.text, maxChars)} {/* Display the ingredient name */}
+        
         </Text>
       ))}
       
