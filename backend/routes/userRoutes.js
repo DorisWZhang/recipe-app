@@ -2,6 +2,7 @@ const express = require('express');
 const registerUser = require('../models/userModel');
 const loginUser = require('../models/authModel');
 const saveRecipe = require('../models/saveRecipeModel');
+const favouriteRecipe = require('../models/favouriteRecipeModel');
 
 
 const router = express.Router();
@@ -56,6 +57,17 @@ router.post('/storerecipe', async (req, res) => {
     } catch (error) {
         console.error('Error saving recipe:', error);
         res.status(500).json({ error: 'Failed to store recipe' });
+    }
+});
+
+router.post('/favouriterecipe', async (req, res) => {
+    const { username, link } = req.body;
+    try {
+        const recipe = await favouriteRecipe(username, link);
+        res.status(200).json({ message: 'Favourited recipe saved successfully', recipe });
+    } catch (error) {
+        console.error('Error favouriting recipe:', error);
+        res.status(500).json({ error: 'Failed to favourite recipe' });
     }
 });
 

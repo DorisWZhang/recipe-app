@@ -93,6 +93,9 @@ export default function Home() {
       // save from the Recipe object
       const name = recipe.getName();
 
+
+      console.log('Saving recipe:', { name });
+  
       const data = { name: name };
       console.log('Sending recipe data:', data); // Log data before sending it
   

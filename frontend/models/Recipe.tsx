@@ -16,6 +16,7 @@ type Ingredient = {
     link: string;
     image: string;
     favourited: boolean;
+    uri: string;
 
     constructor(name: string, ingredients: Ingredient[], link: string, image: string) {
       this.name = name;
@@ -48,6 +49,8 @@ type Ingredient = {
     getNumIngredients() {
       return this.getIngredients().length;
     }
+
+
   }
   
 

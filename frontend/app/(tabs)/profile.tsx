@@ -10,7 +10,9 @@ const profile = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text>hi{userName}</Text>
+      <View>
+        <Text>hi{userName}</Text>
+      </View>
     </View>
   )
 }

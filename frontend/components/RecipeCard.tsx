@@ -2,6 +2,7 @@ import { Text, View, Image, StyleSheet } from 'react-native';
 import React, { useState} from 'react';
 import Recipe from '../models/Recipe';
 import { CheckBox } from '@rneui/themed';
+import { sharedData } from './SharedData';
 
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
@@ -11,8 +12,34 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   {/* update to opposite of its previous state */ }
   const toggleCheckbox = () => {
     updateFavourited(!favourited);
-    // You can add any additional logic here, like saving the state or updating the recipe model
+    favouriteRecipe(recipe);
+    
   };
+
+  // save a favourited recipe relationship to db
+  const favouriteRecipe = async (recipe: Recipe) => {
+    const _link = recipe.getLink();
+    const userName = sharedData.username;
+    console.log('Sending recipe link:', _link);
+    try {
+      const response = await fetch('http://localhost:3000/user/favouriterecipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: userName, 
+          link: _link }),
+      });
+      const result = await response.json();
+      console.log('Backend response:', result);
+    } catch (error) {
+      console.error('Error saving favourited recipe:', error);
+    }
+  }
+
+  const unfavouriteRecipe = async (recipe:Recipe) => {
+    const _link = recipe.getLink();
+    const userName = sharedData.username;
+  }
 
 
   const truncateList = (text:string, limit:number ) => {
