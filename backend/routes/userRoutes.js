@@ -8,7 +8,6 @@ const retrieveFavouriteRecipes = require('../models/retrieveFavouriteRecipesMode
 
 const router = express.Router();
 const cors = require('cors'); // Import cors
-const retrieveFavouriteRecipe = require('../models/retrieveFavouriteRecipeModel');
 
 router.use(cors());
 

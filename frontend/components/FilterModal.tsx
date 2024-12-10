@@ -68,12 +68,13 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
   const renderCheckboxes = (filters: { [key: string]: boolean }, onPress: (key: string) => void) => {
     return Object.keys(filters).map((key, index) => {
       return (
-        <View style={[styles.checkboxWrapper, index % 2 !== 0 && styles.secondCheckbox]}>
+        <View style={[styles.checkboxWrapper, index % 2 !== 0 && styles.secondCheckbox,]}>
           <CheckBox
             key={key}
             title={key.charAt(0).toUpperCase() + key.slice(1)}
             checked={filters[key]}
             onPress={() => onPress(key)}
+           
           />
         </View>
       );
@@ -113,7 +114,7 @@ const FilterModal = ({ visible, toggleModal, setFilters }: FilterModalProps) => 
               style={{ width: 200, height: 40 }}
               minimumValue={1} // Set minimum value to 1
               maximumValue={25}
-              minimumTrackTintColor="#000000"
+              minimumTrackTintColor="#ff724c"
               maximumTrackTintColor="#CFCFCF"
               value={sliderValue} // Bind slider value to state
               onValueChange={handleSliderChange} // Update state on slider change

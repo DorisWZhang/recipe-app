@@ -35,7 +35,7 @@ export default function Home() {
   const handleSearch = () => {
     const queryParams = new URLSearchParams({
       q: searchQuery,
-      // You can add other parameters like ingredients, etc., from `filters`
+      // consider adding other filters
     });
 
     const url = `http://localhost:3000/search?${queryParams.toString()}`;
