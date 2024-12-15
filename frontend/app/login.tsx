@@ -72,11 +72,13 @@ export default function Login() {
 
         // Check if the response contains the expected 'recipe' field
         if (Array.isArray(data.recipe)) {
-            sharedData.savedRecipes = data.recipe;  // Save the list of recipe links
+            // If the data.recipe is an array of objects with 'link' properties
+            sharedData.savedRecipes = data.recipe.map(recipe => recipe.link);  // extract only the links
             console.log("Saved Recipes:", sharedData.savedRecipes);
         } else {
             alert("Failed to retrieve favourite recipes.");
         }
+        
 
     } catch (error) {
         console.error('Error fetching favourite recipes:', error);

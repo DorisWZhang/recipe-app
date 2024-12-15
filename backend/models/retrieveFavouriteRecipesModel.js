@@ -12,16 +12,11 @@ const retrieveFavouriteRecipes = async (username) => {;
 
         if (result.rows.length > 0) {
             console.log('Favourited recipe:', result.rows[0]);  // Log favourited recipe
-
-            // !!! link is not defined
-            //return result.rows.map(row => row.link);
-
-            // Map the rows to extract the links
             
 
         } else {
             console.log('No rows returned from query');
-           
+            
             
         }
         return result.rows;

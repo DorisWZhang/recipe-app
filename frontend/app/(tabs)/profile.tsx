@@ -12,7 +12,7 @@ const profile = () => {
   return (
     <View style={styles.mainContainer}>
       <View>
-        <Text>hi{userName} {sharedData.savedRecipes[0]}</Text>
+        <Text>hi{userName} {recipe_example} </Text>
       </View>
     </View>
   )
