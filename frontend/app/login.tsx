@@ -55,7 +55,7 @@ export default function Login() {
     // fetch favourited recipes from db
     // Inside fetchFavRecipes function
 
-    /// !!!!!!! still not properly saving it to sharedData
+    /// !!!! retrieves the previously saved recipes as urls
     const fetchFavRecipes = async () => {
     const userName = sharedData.username;
     try {
@@ -72,7 +72,7 @@ export default function Login() {
 
         // Check if the response contains the expected 'recipe' field
         if (Array.isArray(data.recipe)) {
-            sharedData.savedRecipes = data.recipe;  // Save the list of links
+            sharedData.savedRecipes = data.recipe;  // Save the list of recipe links
             console.log("Saved Recipes:", sharedData.savedRecipes);
         } else {
             alert("Failed to retrieve favourite recipes.");

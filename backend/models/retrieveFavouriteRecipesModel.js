@@ -17,15 +17,14 @@ const retrieveFavouriteRecipes = async (username) => {;
             //return result.rows.map(row => row.link);
 
             // Map the rows to extract the links
-            return {
-                recipe: result.rows.map(row => row.link),
-            };
+            
 
         } else {
             console.log('No rows returned from query');
-            return { recipe: [] };
+           
             
         }
+        return result.rows;
         
     } catch (error) {
         console.error('Error favouriting recipe:', error);
