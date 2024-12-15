@@ -33,6 +33,9 @@ export default function Login() {
                 // Check the response status
                 if (response.ok) {
                     sharedData.username=userName;
+                    fetchFavRecipes();
+                    console.log('heyy');
+                    //console.log(sharedData.savedRecipes)
                     // Navigate to home screen only if login is successful
                     router.push({
                         pathname: '/home',
@@ -50,25 +53,39 @@ export default function Login() {
     };
 
     // fetch favourited recipes from db
+    // Inside fetchFavRecipes function
+
+    /// !!!!!!! still not properly saving it to sharedData
     const fetchFavRecipes = async () => {
-        const userName = sharedData.username;
-        try {
-            const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    username: userName,
-                }),
-            });
+    const userName = sharedData.username;
+    try {
+        const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: userName,
+            }),
+        });
 
-            // !!!!! parse the data into a list of the recipe uri
-            const data = await response.json();
+        const data = await response.json();
+        console.log("Received data from the server:", data);
 
-        } catch (error) {
-            console.error('Error fetching favourite recipes:', error);
-        } 
-    };
+        // Check if the response contains the expected 'recipe' field
+        if (Array.isArray(data.recipe)) {
+            sharedData.savedRecipes = data.recipe;  // Save the list of links
+            console.log("Saved Recipes:", sharedData.savedRecipes);
+        } else {
+            alert("Failed to retrieve favourite recipes.");
+        }
 
+    } catch (error) {
+        console.error('Error fetching favourite recipes:', error);
+        alert("Failed to fetch favourite recipes.");
+    }
+};
+
+    
+    
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
