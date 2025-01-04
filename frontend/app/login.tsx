@@ -11,6 +11,8 @@ export default function Login() {
     const [userName, setUserName] = useState('');
     const [passWord, setPassWord] = useState('');
     const router = useRouter(); // Create router instance to navigate
+
+    // go save all the fave recipes by url
     const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
   
     const handleClick = async () => {
@@ -34,7 +36,6 @@ export default function Login() {
                 if (response.ok) {
                     sharedData.username=userName;
                     fetchFavRecipes();
-                    console.log('heyy');
                     //console.log(sharedData.savedRecipes)
                     // Navigate to home screen only if login is successful
                     router.push({

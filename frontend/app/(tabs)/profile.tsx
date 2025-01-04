@@ -11,8 +11,12 @@ const profile = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <View>
-        <Text>hi{userName} {recipe_example} </Text>
+      <View style={styles.headerContainer}>
+        <View style ={styles.inputContainer}>
+          <Text style = {styles.header}>{userName}</Text>
+          <Text>Favourites Recipes</Text>
+          <Text>{recipe_example} </Text>
+        </View>
       </View>
     </View>
   )
@@ -21,9 +25,24 @@ const profile = () => {
 export default profile
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        backgroundColor: 'white',
-        height: '100%',
-        width: '100%'
-    }
+  mainContainer: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'white'
+  },
+  headerContainer: {
+    width: '100%',
+    height: '10%',
+    marginTop: 100,
+  },
+  header: {
+    color: '#2A2C41',
+    fontSize: 25,
+    fontFamily: 'Inter_500Medium'
+  },
+  inputContainer: {
+    alignItems: 'center',
+    marginLeft: 0,
+    justifyContent: 'center',
+  },
 })

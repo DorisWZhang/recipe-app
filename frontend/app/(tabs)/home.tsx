@@ -23,6 +23,9 @@ export default function Home() {
   const [filters, setFilters] = useState<{ [key: string]: any }>({});  // Filter options state
   const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
   
+  // !!!!!! testing
+  const recipe_example = sharedData.savedRecipes[0];
+
   const router = useRouter();
   const userName = sharedData.username;
 
@@ -124,6 +127,12 @@ export default function Home() {
 
   }
 
+  // get info of the favourite recipes and save them as RecipeCard
+  // to display umde
+  const fetchFavRecipes = () => {
+
+  }
+
 
   // Clear search query and recipes when the page comes back into focus
   useFocusEffect(
@@ -178,6 +187,7 @@ export default function Home() {
       <View style={styles.sectionContainer}>
         <Text style={styles.popularText}>Favourited</Text>
         <ScrollView horizontal={true}>
+          <View>{recipe_example}</View>
           {applyFilters(recipes).length > 0 ? (
             applyFilters(recipes).map((recipe, index) => (
               <RecipeCard key={index} recipe={recipe} />
