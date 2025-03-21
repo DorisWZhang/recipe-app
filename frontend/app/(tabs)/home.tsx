@@ -1,14 +1,14 @@
 import { Link, useFocusEffect, useRouter, useLocalSearchParams } from 'expo-router'; 
-import { StyleSheet, View, Text, Pressable, FlatList, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, Pressable, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react'; 
 import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { FontAwesome } from '@expo/vector-icons';
 import Recipe from '../../models/Recipe';
 import FilterModal from '@/components/FilterModal';
+import { SearchBar } from '@rneui/themed';
 import RecipeCard from '@/components/RecipeCard';
 import { sharedData } from '@/components/SharedData';
-
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
@@ -16,20 +16,21 @@ export default function Home() {
     Inter_500Medium,
   });
 
+  const [isFocused, setIsFocused] = useState(false); // track focus state of search bar
+
   const [stringJSON, setJSON] = useState('');  // Raw JSON from the API
   const [searchQuery, setSearchQuery] = useState('');  // Search query input
   const [recipes, setRecipes] = useState<Recipe[]>([]);  // List of Recipe objects
   const [visible, setVisible] = useState<boolean>(false);  // Modal visibility for filters
   const [filters, setFilters] = useState<{ [key: string]: any }>({});  // Filter options state
   const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
-  
+
   // !!!!!! testing
   const recipe_example = sharedData.savedRecipes[0];
 
   const router = useRouter();
   const userName = sharedData.username;
 
-    
   const toggleModal = (): void => {
     setVisible((prevState) => !prevState);
   };
@@ -75,16 +76,13 @@ export default function Home() {
     let filteredRecipes = recipes;
 
     // Apply ingredient count filter if it's specified
-    //if (filters.maxIngredients) {
-
-    // !!! return to this
     if (filters.maxIngredients) {
-    filteredRecipes = filteredRecipes.filter(
-      (recipe) => recipe.getNumIngredients() <= filters.maxIngredients
-    );
-  }
+      filteredRecipes = filteredRecipes.filter(
+        (recipe) => recipe.getNumIngredients() <= filters.maxIngredients
+      );
+    }
 
-    // !!! create more functions to filter the fetched recipes
+    // Create more functions to filter the fetched recipes if needed
 
     return filteredRecipes;
   }
@@ -93,10 +91,7 @@ export default function Home() {
   const enterDatabase = async (recipes: Recipe[]) => {
     // Create an array to hold promises for all recipe requests
     const requests = recipes.map(async (recipe) => {
-      // save from the Recipe object
       const name = recipe.getName();
-
-
       console.log('Saving recipe:', { name });
   
       const data = { name: name };
@@ -119,20 +114,11 @@ export default function Home() {
     await Promise.all(requests);
     console.log('All recipes have been processed.');
   };
-  
 
-  
   // load recipe page depending on recipe clicked
   const clickRecipe = (recipe: Recipe) => {
-
+    // Handle navigation to recipe detail page
   }
-
-  // get info of the favourite recipes and save them as RecipeCard
-  // to display umde
-  const fetchFavRecipes = () => {
-
-  }
-
 
   // Clear search query and recipes when the page comes back into focus
   useFocusEffect(
@@ -145,21 +131,30 @@ export default function Home() {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}> 
-        <Link href='/landing' style={{width: 0}}>
+        <Link href='/landing' style={{ width: 0 }}>
           <FontAwesome name='arrow-left' style={{color: '#CFCFCF', marginLeft: 30}} />
         </Link>
         <View style={{ width: '100%', alignItems: 'center', marginTop: 30 }}>
           <Text style={styles.header}>What will you cook today?</Text>
         </View>
+        
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput 
-          placeholder='What will you cook today?' 
-          style={styles.input}
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-        />
+        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+          <TextInput 
+            placeholder='What will you cook today?' 
+            style={styles.input}
+            value={searchQuery}
+            onChangeText={(text) => setSearchQuery(text)}
+          />
+          <View style= {{marginTop: 10, marginLeft: 10}}>
+            <Pressable onPress={handleSearch} >
+              <Ionicons  name="search-outline" size={30} color="#CFCFCF" />
+            </Pressable>
+          </View>
+          
+        </View>
         <View style={{alignItems: 'flex-start'}}>
           <TouchableOpacity onPress={toggleModal} style={{alignSelf: 'flex-start'}}>
             <Text style={{fontSize: 16, marginTop: 5}}>Apply more filters</Text>
@@ -167,10 +162,6 @@ export default function Home() {
         </View>
 
         <FilterModal visible={visible} toggleModal={toggleModal} setFilters={setFilters} />
-        
-        <Pressable onPress={handleSearch}>
-          <Text>Search</Text>
-        </Pressable>
       </View>
 
       <View style={styles.sectionContainer}>
@@ -197,9 +188,7 @@ export default function Home() {
       </View>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
+}const styles = StyleSheet.create({
   mainContainer: {
     width: '100%',
     height: '100%',

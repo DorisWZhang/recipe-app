@@ -13,6 +13,7 @@ const userRoutes = require('./routes/userRoutes');
 const EDAMAM_APP_ID = '3153c55e';
 const EDAMAM_APP_KEY = '6ce106f71f98c6c0a1f9a630bf9fc316';
 
+
 app.use(cors({
   origin: /localhost/,  // only local host access
 }));
