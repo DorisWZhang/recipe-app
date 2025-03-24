@@ -7,8 +7,10 @@ import Recipe from '../../models/Recipe';
 import FilterModal from '@/components/FilterModal';
 import { SearchBar } from '@rneui/themed';
 import RecipeCard from '@/components/RecipeCard';
+import RecipeScrollView from '@/components/RecipeScrollView';
 import { sharedData } from '@/components/SharedData';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function Home() {
   let [fontsLoaded] = useFonts({
@@ -27,6 +29,7 @@ export default function Home() {
 
   // !!!!!! testing
   const recipe_example = sharedData.savedRecipes[0];
+  const savedRecipeURLs = sharedData.savedRecipes
 
   const router = useRouter();
   const userName = sharedData.username;
@@ -120,6 +123,38 @@ export default function Home() {
     // Handle navigation to recipe detail page
   }
 
+
+  const fetchFavouriteRecipes = async () =>  {
+    console.log(savedRecipeURLs[0])
+    try {
+      const queryParams = new URLSearchParams({ q: searchQuery });
+      const response = await fetch(`http://localhost:3000/search?${queryParams.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      const allRecipes = data.hits; // Get all recipes from API
+  
+      // Filter recipes that match URLs in `savedRecipeURLs`
+      const matchingRecipes = allRecipes.filter((recipe: any) =>
+        savedRecipeURLs.includes(recipe.recipe.uri)
+      );
+  
+      // Convert matching recipes into Recipe objects
+      const parsedRecipes = matchingRecipes.map((recipe: any) => 
+        new Recipe(recipe.recipe.label, recipe.recipe.ingredients, recipe.recipe.uri, recipe.recipe.image)
+      );
+  
+      setFavRecipes(parsedRecipes);  // Update state with filtered recipes
+      enterDatabase(parsedRecipes); // Save filtered recipes if needed
+  
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  }
+
   // Clear search query and recipes when the page comes back into focus
   useFocusEffect(
     useCallback(() => {
@@ -164,30 +199,22 @@ export default function Home() {
         <FilterModal visible={visible} toggleModal={toggleModal} setFilters={setFilters} />
       </View>
 
+    {/*Popular today results*/}
       <View style={styles.sectionContainer}>
         <Text style={styles.popularText}>Popular Today</Text>
-        <ScrollView horizontal={true}>
-          {applyFilters(recipes).length > 0 ? (
-            applyFilters(recipes).map((recipe, index) => (
-              <RecipeCard key={index} recipe={recipe} />
-            ))
-          ) : (<Text>No recipes available</Text>)}
-        </ScrollView>
+        <RecipeScrollView recipes={applyFilters(recipes)}>
+        </RecipeScrollView>
       </View>
 
+    {/*User favourited results*/}
       <View style={styles.sectionContainer}>
         <Text style={styles.popularText}>Favourited</Text>
-        <ScrollView horizontal={true}>
-          <View>{recipe_example}</View>
-          {applyFilters(recipes).length > 0 ? (
-            applyFilters(recipes).map((recipe, index) => (
-              <RecipeCard key={index} recipe={recipe} />
-            ))
-          ) : (<Text>No recipes available</Text>)}
-        </ScrollView>
+        <RecipeScrollView recipes={favRecipes}>
+        </RecipeScrollView>
       </View>
     </View>
   );
+
 }const styles = StyleSheet.create({
   mainContainer: {
     width: '100%',
