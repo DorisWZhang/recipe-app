@@ -4,7 +4,7 @@ const pool = require('../dbConfig');
 
 const favouriteRecipe = async (username, recipe_name, ingredients, link, image, uri) => {
     try {
-        // Improved logging for debugging
+        // logging for debugging
         console.log('Favouriting recipe:');
         console.log('Username:', username);
         console.log('Recipe Name:', recipe_name);

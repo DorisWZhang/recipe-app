@@ -46,9 +46,6 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
       uri: _uri,
     })
 
-    alert(requestBody)
-
-
     try {
       
       const response = await fetch('http://localhost:3000/user/favouriterecipe', {
