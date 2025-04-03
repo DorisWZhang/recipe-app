@@ -7,7 +7,7 @@ import { sharedData } from '@/components/SharedData';
 const profile = () => {
 
   const userName = sharedData.username;
-  const recipe_example = sharedData.savedRecipes[0];
+  const recipe_example = sharedData.favRecipes[0];
 
   return (
     <View style={styles.mainContainer}>
@@ -15,7 +15,7 @@ const profile = () => {
         <View style ={styles.inputContainer}>
           <Text style = {styles.header}>{userName}</Text>
           <Text>Favourites Recipes</Text>
-          <Text>{recipe_example} </Text>
+          <Text>{recipe_example.getName()} </Text>
         </View>
       </View>
     </View>

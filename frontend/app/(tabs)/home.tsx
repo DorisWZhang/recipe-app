@@ -28,8 +28,7 @@ export default function Home() {
   const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
 
   // !!!!!! testing
-  const recipe_example = sharedData.savedRecipes[0];
-  const savedRecipeURLs = sharedData.savedRecipes
+  const recipe_example = sharedData.favRecipes[0];
 
   const router = useRouter();
   const userName = sharedData.username;
@@ -125,34 +124,7 @@ export default function Home() {
 
 
   const fetchFavouriteRecipes = async () =>  {
-    console.log(savedRecipeURLs[0])
-    try {
-      const queryParams = new URLSearchParams({ q: searchQuery });
-      const response = await fetch(`http://localhost:3000/search?${queryParams.toString()}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      const allRecipes = data.hits; // Get all recipes from API
-  
-      // Filter recipes that match URLs in `savedRecipeURLs`
-      const matchingRecipes = allRecipes.filter((recipe: any) =>
-        savedRecipeURLs.includes(recipe.recipe.uri)
-      );
-  
-      // Convert matching recipes into Recipe objects
-      const parsedRecipes = matchingRecipes.map((recipe: any) => 
-        new Recipe(recipe.recipe.label, recipe.recipe.ingredients, recipe.recipe.uri, recipe.recipe.image)
-      );
-  
-      setFavRecipes(parsedRecipes);  // Update state with filtered recipes
-      enterDatabase(parsedRecipes); // Save filtered recipes if needed
-  
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
-    }
+    setFavRecipes(sharedData.favRecipes)
   }
 
   // Clear search query and recipes when the page comes back into focus

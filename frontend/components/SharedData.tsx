@@ -1,6 +1,6 @@
 // globally save username and favourite recipes
+import Recipe from "@/models/Recipe";
 export const sharedData = {
     username: '',
-    savedRecipes: [] as string[],
+    favRecipes: [] as Recipe[],
   };
-  

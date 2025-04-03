@@ -56,38 +56,42 @@ export default function Login() {
     // fetch favourited recipes from db
     // Inside fetchFavRecipes function
 
-    /// !!!! retrieves the previously saved recipes as urls
     const fetchFavRecipes = async () => {
-    const userName = sharedData.username;
-    try {
-        const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: userName,
-            }),
-        });
-
-        const data = await response.json();
-        console.log("Received data from the server:", data);
-
-        // Check if the response contains the expected 'recipe' field
-        if (Array.isArray(data.recipe)) {
-            // If the data.recipe is an array of objects with 'link' properties
-            sharedData.savedRecipes = data.recipe.map(recipe => recipe.link);  // extract only the links
-            console.log("Saved Recipes:", sharedData.savedRecipes);
-        } else {
-            alert("Failed to retrieve favourite recipes.");
-        }
-        
-
-    } catch (error) {
-        console.error('Error fetching favourite recipes:', error);
-        alert("Failed to fetch favourite recipes.");
-    }
-};
-
+        const userName = sharedData.username;
+        try {
+            const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: userName }),
+            });
     
+            const data = await response.json();
+            console.log("Received data from the server:", data);
+    
+            // Check if the response contains an array of recipes
+            if (Array.isArray(data.recipe)) {
+                // Parse recipes into structured list
+                const parsedRecipes = data.recipe.map(recipe => ({
+                    name: recipe.recipe_name,
+                    ingredients: recipe.ingredients, // assuming JSONB format is properly parsed
+                    link: recipe.link,
+                    image: recipe.image,
+                    uri: recipe.uri,
+                }));
+    
+                // Update state with fetched recipes
+                setFavRecipes(parsedRecipes);
+                sharedData.favRecipes = favRecipes;
+                console.log("Parsed and saved favourite recipes:", parsedRecipes);
+            } else {
+                alert("Failed to retrieve favourite recipes.");
+            }
+    
+        } catch (error) {
+            console.error('Error fetching favourite recipes:', error);
+            alert("Failed to fetch favourite recipes.");
+        }
+    };
     
 
     let [fontsLoaded] = useFonts({

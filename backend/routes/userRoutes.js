@@ -62,9 +62,9 @@ router.post('/storerecipe', async (req, res) => {
 });
 
 router.post('/favouriterecipe', async (req, res) => {
-    const { username, link } = req.body;
+    const { username, recipe_name, ingredients, link, image, uri } = req.body;
     try {
-        const recipe = await favouriteRecipe(username, link);
+        const recipe = await favouriteRecipe(username, recipe_name, ingredients, link, image, uri );
         res.status(200).json({ message: 'Favourited recipe saved successfully', recipe });
     } catch (error) {
         console.error('Error favouriting recipe:', error);

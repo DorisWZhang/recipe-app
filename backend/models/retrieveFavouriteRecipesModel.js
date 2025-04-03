@@ -6,7 +6,7 @@ const pool = require('../dbConfig');
 const retrieveFavouriteRecipes = async (username) => {;
     try {
         const result = await pool.query(
-            'SELECT link FROM favourited_recipes WHERE username = $1',
+            'SELECT username, name, ingredients, link, image, uri FROM favourited_recipes WHERE username = $1',
             [username]
         );
 

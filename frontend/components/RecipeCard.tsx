@@ -13,8 +13,8 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const toggleCheckbox = () => {
     updateFavourited((prevFavourited) => {
       const newFavourited = !prevFavourited;
-  
       // save or remove favourited relationship from the database
+
       if (newFavourited) {
         favouriteRecipe(recipe);
       } else {
@@ -28,17 +28,35 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
   // save a favourited recipe relationship to db
   const favouriteRecipe = async (recipe: Recipe) => {
-    const _link = recipe.getLink();
     const userName = sharedData.username;
+    const _name = recipe.getName();
+    const _ingredients = recipe.getIngredients().map(ingredient => ingredient.text);
+    // note: getIngredients returns a list of Ingredient objects not string
+    const _link = recipe.getLink();
+    const _image = recipe.getImage();
+    const _uri = recipe.getLink();
     console.log('Sending recipe link:', _link);
+
+    const requestBody = JSON.stringify ({
+      username: userName, 
+      recipe_name: _name,
+      ingredients: JSON.stringify(_ingredients),
+      link: _link,
+      image: _image,
+      uri: _uri,
+    })
+
+    alert(requestBody)
+
+
     try {
+      
       const response = await fetch('http://localhost:3000/user/favouriterecipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: userName, 
-          link: _link }),
+        body: requestBody,
       });
+
       const result = await response.json();
       console.log('Backend response:', result);
     } catch (error) {
@@ -105,7 +123,9 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
           checkedIcon="heart"
           uncheckedIcon="heart-o"
           checkedColor="red"
-          onPress={toggleCheckbox}
+          onPress={() => {
+            toggleCheckbox();
+          }}
           containerStyle={styles.checkbox} // Optionally style CheckBox directly
         />
       </View>
