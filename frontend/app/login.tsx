@@ -66,22 +66,25 @@ export default function Login() {
             });
     
             const data = await response.json();
+            console.log(data.recipe)
+            console.log('hi')
+            console.log()
             console.log("Received data from the server:", data);
     
             // Check if the response contains an array of recipes
             if (Array.isArray(data.recipe)) {
                 // Parse recipes into structured list
-                const parsedRecipes = data.recipe.map(recipe => ({
-                    name: recipe.recipe_name,
-                    ingredients: recipe.ingredients, // assuming JSONB format is properly parsed
-                    link: recipe.link,
-                    image: recipe.image,
-                    uri: recipe.uri,
-                }));
+                const parsedRecipes = data.recipe.map(recipe => new Recipe(
+                    recipe.name,
+                    recipe.ingredients, // assuming JSONB format is properly parsed
+                    recipe.link,
+                    recipe.image,
+                ));
     
                 // Update state with fetched recipes
                 setFavRecipes(parsedRecipes);
                 sharedData.favRecipes = favRecipes;
+                
                 console.log("Parsed and saved favourite recipes:", parsedRecipes);
             } else {
                 alert("Failed to retrieve favourite recipes.");

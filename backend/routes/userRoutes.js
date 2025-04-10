@@ -89,6 +89,7 @@ router.post('/retrievefavouriterecipes', async (req, res) => {
     const { username } = req.body;
     try {
         const recipe = await retrieveFavouriteRecipes(username);
+        console.log(recipe)
         res.status(200).json({ message: 'Retrieved favourited recipes successfully', recipe });
     } catch (error) {
         console.error('Failed to retrieve favourited recipes', error);
