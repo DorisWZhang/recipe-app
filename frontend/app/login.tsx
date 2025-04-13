@@ -54,9 +54,7 @@ export default function Login() {
         }
     };
 
-    // fetch favourited recipes from db
-    // Inside fetchFavRecipes function
-
+    // Fetch favourite recipes from DB
     const fetchFavRecipes = async () => {
         const userName = sharedData.username;
         try {
@@ -67,12 +65,7 @@ export default function Login() {
             });
     
             const data = await response.json();
-            console.log(data.recipe)
-            console.log('hi')
-            console.log('Server raw data:', data.recipe[0]);
-            console.log('Type of ingredients:', typeof data.recipe[0]?.ingredients);
-            console.log('Ingredients value:', data.recipe[0]?.ingredients);
-            console.log()
+            console.log(data.recipe);
             console.log("Received data from the server:", data);
     
             // Check if the response contains an array of recipes
@@ -80,22 +73,14 @@ export default function Login() {
                 // Parse recipes into structured list
                 const parsedRecipes = data.recipe.map(recipe => new Recipe(
                     recipe.name,
-                    recipe.ingredients, // assuming JSONB format is properly parsed
+                    recipe.ingredients, 
                     recipe.link,
                     recipe.image,
                 ));
-
-                console.log(parsedRecipes[0].getIngredients())
                 // Update state with fetched recipes
                 setFavRecipes(parsedRecipes);
                 sharedData.favRecipes = parsedRecipes;
-
-                console.log(sharedData.favRecipes)
-                
-                console.log("Parsed and saved favourite recipes:", parsedRecipes);
-
-                
-                
+                console.log("Parsed and saved favourite recipes:", sharedData.favRecipes);
             } else {
                 alert("Failed to retrieve favourite recipes.");
             }

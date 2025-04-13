@@ -9,10 +9,7 @@ import RecipeScrollView from '@/components/RecipeScrollView';
 const profile = () => {
 
   const userName = sharedData.username;
-  const recipe_example = sharedData.favRecipes[0];
   console.log("Fav recipes in profile:", sharedData.favRecipes);
-  console.log(sharedData.favRecipes[0].getImage())
-
 
   return (
     <View style={styles.mainContainer}>
