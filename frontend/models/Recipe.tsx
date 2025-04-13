@@ -1,24 +1,14 @@
-type Ingredient = {
-    text: string;
-    quantity: number;
-    measure: string;
-    food: string;
-    weight: number;
-    foodCategory: string;
-    foodId: string;
-    image: string;
-    favourited: boolean;
-  };
+
   
   class Recipe {
     name: string;
-    ingredients: Ingredient[];
+    ingredients: string[];
     link: string;
     image: string;
     favourited: boolean;
     uri: string;
 
-    constructor(name: string, ingredients: Ingredient[], link: string, image: string) {
+    constructor(name: string, ingredients: string[], link: string, image: string) {
       this.name = name;
       this.ingredients = ingredients;
       this.link = link;

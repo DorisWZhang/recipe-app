@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { sharedData } from '@/components/SharedData';
+import RecipeCard from '@/components/RecipeCard';
+import RecipeScrollView from '@/components/RecipeScrollView';
 
 
 
@@ -8,6 +10,9 @@ const profile = () => {
 
   const userName = sharedData.username;
   const recipe_example = sharedData.favRecipes[0];
+  console.log("Fav recipes in profile:", sharedData.favRecipes);
+  console.log(sharedData.favRecipes[0].getImage())
+
 
   return (
     <View style={styles.mainContainer}>
@@ -15,12 +20,15 @@ const profile = () => {
         <View style ={styles.inputContainer}>
           <Text style = {styles.header}>{userName}</Text>
           <Text>Favourites Recipes</Text>
-          <Text>{recipe_example.getName()} </Text>
+          <RecipeScrollView recipes={sharedData.favRecipes}></RecipeScrollView>
         </View>
       </View>
     </View>
   )
+
 }
+
+
 
 export default profile
 

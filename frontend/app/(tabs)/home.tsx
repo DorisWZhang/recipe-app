@@ -56,7 +56,7 @@ export default function Home() {
         const parsedRecipes = recipesData.slice(0, 20).map((recipe: any) => {
           return new Recipe(
             recipe.recipe.label,
-            recipe.recipe.ingredients,
+            recipe.recipe.ingredients.map((ingredient: any) => ingredient.text),
             recipe.recipe.uri,
             recipe.recipe.image
           );
@@ -181,7 +181,7 @@ export default function Home() {
     {/*User favourited results*/}
       <View style={styles.sectionContainer}>
         <Text style={styles.popularText}>Favourited</Text>
-        <RecipeScrollView recipes={favRecipes}>
+        <RecipeScrollView recipes={sharedData.favRecipes}>
         </RecipeScrollView>
       </View>
     </View>

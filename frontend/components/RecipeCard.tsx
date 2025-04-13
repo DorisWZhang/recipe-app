@@ -30,12 +30,12 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const favouriteRecipe = async (recipe: Recipe) => {
     const userName = sharedData.username;
     const _name = recipe.getName();
-    const _ingredients = recipe.getIngredients().map(ingredient => ingredient.text);
+    const _ingredients = recipe.getIngredients();
     // note: getIngredients returns a list of Ingredient objects not string
     const _link = recipe.getLink();
     const _image = recipe.getImage();
     const _uri = recipe.getLink();
-    console.log('Sending recipe link:', _link);
+    console.log('Sending recipe:', _name, _ingredients, _link, _image, _uri)
 
     const requestBody = JSON.stringify ({
       username: userName, 
@@ -85,10 +85,14 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     return text.length > limit ? text.slice(0,limit) + "...": text;
   };
 
-  {/* max number of ingredients showing on the preview recipe card*/}
+  {/* max number of ingredients sho wing on the preview recipe card*/}
   const maxIngredients = 3;
 
   const maxChars = 35;
+
+  console.log(Array.isArray(recipe.ingredients)); // should be true
+console.log(typeof recipe.ingredients); // should be 'object'
+console.log(recipe.ingredients.length); // should be 2
 
   return (
     <View style={styles.mainContainer}>
@@ -101,11 +105,11 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
       {/* Display recipe ingredients */}
       <Text style={styles.textContainer}>Ingredients: {recipe.getNumIngredients()} </Text>
       {recipe.getIngredients().slice(0, maxIngredients).map((ingredient, index) => (
-        <Text key={index} style={styles.ingredientText}>
-          {truncateList(ingredient.text, maxChars)} {/* Display the ingredient name */}
-        
-        </Text>
-      ))}
+  <Text key={index} style={styles.ingredientText}>
+    {truncateList(ingredient, maxChars)}
+  </Text>
+))}
+
       
       {/* Optionally show a message if there are more ingredients */}
       {recipe.getIngredients().length > maxIngredients && (

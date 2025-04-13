@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import Account from '../models/Account';
 import { sharedData } from '@/components/SharedData';
 import Recipe from '../models/Recipe';
+import { parse } from '@babel/core';
 
 export default function Login() {
     const [userName, setUserName] = useState('');
@@ -68,6 +69,9 @@ export default function Login() {
             const data = await response.json();
             console.log(data.recipe)
             console.log('hi')
+            console.log('Server raw data:', data.recipe[0]);
+            console.log('Type of ingredients:', typeof data.recipe[0]?.ingredients);
+            console.log('Ingredients value:', data.recipe[0]?.ingredients);
             console.log()
             console.log("Received data from the server:", data);
     
@@ -80,12 +84,18 @@ export default function Login() {
                     recipe.link,
                     recipe.image,
                 ));
-    
+
+                console.log(parsedRecipes[0].getIngredients())
                 // Update state with fetched recipes
                 setFavRecipes(parsedRecipes);
-                sharedData.favRecipes = favRecipes;
+                sharedData.favRecipes = parsedRecipes;
+
+                console.log(sharedData.favRecipes)
                 
                 console.log("Parsed and saved favourite recipes:", parsedRecipes);
+
+                
+                
             } else {
                 alert("Failed to retrieve favourite recipes.");
             }
