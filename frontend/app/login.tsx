@@ -37,7 +37,6 @@ export default function Login() {
                 if (response.ok) {
                     sharedData.username=userName;
                     fetchFavRecipes();
-                    //console.log(sharedData.savedRecipes)
                     // Navigate to home screen only if login is successful
                     router.push({
                         pathname: '/home',
@@ -77,6 +76,11 @@ export default function Login() {
                     recipe.link,
                     recipe.image,
                 ));
+
+                parsedRecipes.forEach(recipe => {
+                    recipe.setFavourited(true);
+                    console.log("favourited status", recipe.getFavourited());
+                })
                 // Update state with fetched recipes
                 setFavRecipes(parsedRecipes);
                 sharedData.favRecipes = parsedRecipes;

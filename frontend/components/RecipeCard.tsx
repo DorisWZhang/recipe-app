@@ -36,6 +36,9 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     const _image = recipe.getImage();
     const _uri = recipe.getLink();
     console.log('Sending recipe:', _name, _ingredients, _link, _image, _uri)
+    
+    //set recipe's field "favourited" to true
+    recipe.setFavourited(true);
 
     const requestBody = JSON.stringify ({
       username: userName, 
@@ -64,6 +67,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   const unfavouriteRecipe = async (recipe:Recipe) => {
     const _link = recipe.getLink();
     const userName = sharedData.username;
+    recipe.setFavourited(false);
     try {
       const response = await fetch('http://localhost:3000/user/unfavouriterecipe', {
         method:'POST',
@@ -90,9 +94,6 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
   const maxChars = 35;
 
-  console.log(Array.isArray(recipe.ingredients)); // should be true
-console.log(typeof recipe.ingredients); // should be 'object'
-console.log(recipe.ingredients.length); // should be 2
 
   return (
     <View style={styles.mainContainer}>
@@ -120,7 +121,7 @@ console.log(recipe.ingredients.length); // should be 2
 
       <View style={styles.checkboxContainer}>
         <CheckBox
-          checked={favourited}
+          checked={recipe.getFavourited()}
           checkedIcon="heart"
           uncheckedIcon="heart-o"
           checkedColor="red"

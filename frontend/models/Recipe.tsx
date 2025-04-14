@@ -40,7 +40,10 @@
       return this.getIngredients().length;
     }
 
-
+    // flip favourited 
+    setFavourited(is_favourited: boolean) {
+      this.favourited = is_favourited;
+    }
   }
   
 

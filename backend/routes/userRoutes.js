@@ -26,7 +26,6 @@ router.post('/register', async (req, res) => {
 // POST /user/login: Handle login
 // In your express router file (auth.js)
 router.post('/login', async (req, res) => {
-    //console.log('post request successful');
     const { username, password } = req.body;
     
     try {
