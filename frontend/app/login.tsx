@@ -7,6 +7,9 @@ import Account from '../models/Account';
 import { sharedData } from '@/components/SharedData';
 import Recipe from '../models/Recipe';
 import { parse } from '@babel/core';
+import { fetchFavRecipes } from '@/api/recipe';
+
+
 
 export default function Login() {
     const [userName, setUserName] = useState('');
@@ -14,8 +17,7 @@ export default function Login() {
     const router = useRouter(); // Create router instance to navigate
 
     // go save all the fave recipes by url
-    const [favRecipes, setFavRecipes] = useState<Recipe[]>([]);
-  
+
     const handleClick = async () => {
         console.log('User clicked login');
         if (!userName || !passWord) {
@@ -52,49 +54,6 @@ export default function Login() {
             }
         }
     };
-
-    // Fetch favourite recipes from DB
-    const fetchFavRecipes = async () => {
-        const userName = sharedData.username;
-        try {
-            const response = await fetch('http://localhost:3000/user/retrievefavouriterecipes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: userName }),
-            });
-    
-            const data = await response.json();
-            console.log(data.recipe);
-            console.log("Received data from the server:", data);
-    
-            // Check if the response contains an array of recipes
-            if (Array.isArray(data.recipe)) {
-                // Parse recipes into structured list
-                const parsedRecipes = data.recipe.map(recipe => new Recipe(
-                    recipe.name,
-                    recipe.ingredients, 
-                    recipe.link,
-                    recipe.image,
-                ));
-
-                parsedRecipes.forEach(recipe => {
-                    recipe.setFavourited(true);
-                    console.log("favourited status", recipe.getFavourited());
-                })
-                // Update state with fetched recipes
-                setFavRecipes(parsedRecipes);
-                sharedData.favRecipes = parsedRecipes;
-                console.log("Parsed and saved favourite recipes:", sharedData.favRecipes);
-            } else {
-                alert("Failed to retrieve favourite recipes.");
-            }
-    
-        } catch (error) {
-            console.error('Error fetching favourite recipes:', error);
-            alert("Failed to fetch favourite recipes.");
-        }
-    };
-    
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,

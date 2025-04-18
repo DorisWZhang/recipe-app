@@ -3,30 +3,30 @@ import React, { useState} from 'react';
 import Recipe from '../models/Recipe';
 import { CheckBox } from '@rneui/themed';
 import { sharedData } from './SharedData';
+import Login from '@/app/login';
+import { fetchFavRecipes } from '@/api/recipe';
 
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
-
-  const [favourited, updateFavourited] = useState(false);
+  const [isFavourited, setIsFavourited] = useState(recipe.getFavourited());
+ 
 
   {/* update to opposite of its previous state */ }
   const toggleCheckbox = () => {
-    updateFavourited((prevFavourited) => {
-      const newFavourited = !prevFavourited;
-      // save or remove favourited relationship from the database
-
-      if (newFavourited) {
-        favouriteRecipe(recipe);
-      } else {
-        unfavouriteRecipe(recipe);
-      }
-  
-      return newFavourited; 
-    });
+    const newState = !recipe.getFavourited()
+    setIsFavourited(newState) // update the state, for live changes 
+    recipe.setFavourited(newState) // set it to the opposite of its current state
+    
+    if (!recipe.getFavourited()) {
+      unfavouriteRecipe(recipe);
+    } else {
+      favouriteRecipe(recipe);
+    }
   };
   
 
   // save a favourited recipe relationship to db
+  // refresh the page to update recipes
   const favouriteRecipe = async (recipe: Recipe) => {
     const userName = sharedData.username;
     const _name = recipe.getName();
@@ -62,6 +62,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     } catch (error) {
       console.error('Error saving favourited recipe:', error);
     }
+    fetchFavRecipes();
   }
 
   const unfavouriteRecipe = async (recipe:Recipe) => {
@@ -81,6 +82,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     } catch (error) {
       console.error('Error saving unfavourited recipe:', error);
     }
+    fetchFavRecipes();
     
   }
 
@@ -98,7 +100,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
     <View style={styles.mainContainer}>
       {/* display recipe name */}
-      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{recipe.getName()} {favourited}</Text>
+      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{recipe.getName()} </Text>
 
       {/* display recipe image */}
       <Image source={{ uri: recipe.getImage() }} style={{ width: 100, height: 100, marginVertical: 10 }} />
@@ -121,7 +123,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
       <View style={styles.checkboxContainer}>
         <CheckBox
-          checked={recipe.getFavourited()}
+          checked={isFavourited}
           checkedIcon="heart"
           uncheckedIcon="heart-o"
           checkedColor="red"

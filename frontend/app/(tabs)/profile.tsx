@@ -3,6 +3,7 @@ import React from 'react'
 import { sharedData } from '@/components/SharedData';
 import RecipeCard from '@/components/RecipeCard';
 import RecipeScrollView from '@/components/RecipeScrollView';
+import { fetchFavRecipes } from '@/api/recipe';
 
 
 
@@ -10,7 +11,7 @@ const profile = () => {
 
   const userName = sharedData.username;
   console.log("Fav recipes in profile:", sharedData.favRecipes);
-
+  fetchFavRecipes();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
